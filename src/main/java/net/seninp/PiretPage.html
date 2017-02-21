@@ -1,12 +1,44 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8" />
+<title>PiReT home</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.top-buffer {
+	margin-top: 20px;
+}
+
+.mono {
+	font-size: 9pt;
+	font-family: Consolas, courier;
+	fill: #aaa;
+}
+</style>
 </head>
 <body>
-	<h2>Wellcome! This page is reserved to authenticated users.</h2>
-	<a wicket:id="goToHomePage">Home page</a><br/>
-	<a wicket:id="logOut">Log out</a>
+	<!-- Part 1: Wrap all page content here -->
+	<div id="wrap">
+		<!-- Begin page content -->
+		<div class="col-lg-12">
+			<!-- the header -->
+			<div class="page-header">
+				<div class="row">
+					<div class="col-lg-1">
+						<img src="piret.png" width="75px" height="75px" alt="PiReT Logo" />
+					</div>
+					<div class="col-lg-11">
+						<h1>PiReT - Pipeline for Reference based Transcriptomics</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
