@@ -5,6 +5,9 @@ import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
 public final class SignInSession extends AuthenticatedWebSession {
+
+  private static final long serialVersionUID = -715683341720577958L;
+
   /** Trivial user representation */
   private String user;
 
@@ -13,7 +16,7 @@ public final class SignInSession extends AuthenticatedWebSession {
    * 
    * @param request
    */
-  protected SignInSession(Request request) {
+  public SignInSession(Request request) {
     super(request);
   }
 
@@ -27,11 +30,12 @@ public final class SignInSession extends AuthenticatedWebSession {
    */
   @Override
   public final boolean authenticate(final String username, final String password) {
-    final String WICKET = "wicket";
+
+    final String TEST = "test";
 
     if (user == null) {
       // Trivial password "db"
-      if (WICKET.equalsIgnoreCase(username) && WICKET.equalsIgnoreCase(password)) {
+      if (TEST.equalsIgnoreCase(username) && TEST.equalsIgnoreCase(password)) {
         user = username;
       }
     }

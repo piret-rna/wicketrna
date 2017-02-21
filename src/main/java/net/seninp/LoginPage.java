@@ -1,89 +1,44 @@
 package net.seninp;
 
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
+import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.util.value.ValueMap;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.util.string.Strings;
 
 public final class LoginPage extends WebPage {
-  /**
-   * Constructor
-   */
-  public LoginPage() {
-    // Create feedback panel and add to page
-    add(new FeedbackPanel("feedback"));
 
-    // Add sign-in form to page
-    add(new SignInForm("signInForm"));
-  }
+  private static final long serialVersionUID = -5269975581193823397L;
 
-  /**
-   * Sign in form
-   */
-  public final class SignInForm extends Form<Void> {
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
+  private String username;
+  private String password;
 
-    // El-cheapo model for form
-    private final ValueMap properties = new ValueMap();
+  @Override
+  protected void onInitialize() {
+    super.onInitialize();
 
-    /**
-     * Constructor
-     * 
-     * @param id id of the form component
-     */
-    public SignInForm(final String id) {
-      super(id);
+    StatelessForm<String> form = new StatelessForm<String>("form") {
+      private static final long serialVersionUID = 1L;
 
-      // Attach textfield components that edit properties map model
-      add(new TextField<>(USERNAME, new PropertyModel<String>(properties, USERNAME)));
-      add(new PasswordTextField(PASSWORD, new PropertyModel<String>(properties, PASSWORD)));
-    }
+      @Override
+      protected void onSubmit() {
+        if (Strings.isEmpty(username) || Strings.isEmpty(password))
+          return;
 
-    /**
-     * @see org.apache.wicket.markup.html.form.Form#onSubmit()
-     */
-    @Override
-    public final void onSubmit() {
-      // Get session info
-      SignInSession session = getMySession();
+        boolean authResult = SignInSession.get().signIn(username, password);
 
-      // Sign the user in
-      if (session.authenticate(getUsername(), getPassword())) {
-        continueToOriginalDestination();
-        setResponsePage(getApplication().getHomePage());
+        if (authResult) {
+          continueToOriginalDestination();
+        }
       }
-      else {
-        // Get the error message from the properties file associated with the Component
-        String errmsg = getString("loginError", null, "Unable to sign you in");
+    };
 
-        // Register the error message with the feedback panel
-        error(errmsg);
-      }
-    }
+    form.setDefaultModel(new CompoundPropertyModel<LoginPage>(this));
 
-    /**
-     * @return
-     */
-    private String getPassword() {
-      return properties.getString(PASSWORD);
-    }
+    form.add(new TextField<String>("username"));
+    form.add(new PasswordTextField("password"));
 
-    /**
-     * @return
-     */
-    private String getUsername() {
-      return properties.getString(USERNAME);
-    }
-
-    /**
-     * @return
-     */
-    private SignInSession getMySession() {
-      return (SignInSession) getSession();
-    }
+    add(form);
   }
 }

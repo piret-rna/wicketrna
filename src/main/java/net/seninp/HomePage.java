@@ -40,7 +40,7 @@ public class HomePage extends WebPage {
 
       public void onSubmit() {
         info("button2.onSubmit executed");
-        setResponsePage(LoginPage.class);
+        setResponsePage(PiretPage.class);
       }
     };
 
