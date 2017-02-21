@@ -27,7 +27,7 @@ public class WicketApplication extends WebApplication
 	public void init()
 	{
 		super.init();
-
 		// add your configuration here
+		mountPage("login", LoginPage.class);
 	}
 }
