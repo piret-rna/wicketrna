@@ -26,6 +26,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
   @Override
   public void init() {
     super.init();
+    this.getMarkupSettings().setStripWicketTags(true);
     // add your configuration here
     mountPage("login", LoginPage.class);
     mountPage("piret", PiretPage.class);
