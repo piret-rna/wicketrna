@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta charset="utf-8" />
+<title>PiReT login</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com /font-awesome/4.1.0/css/font-awesome.min.css">
+
+<style>
+.top-buffer {
+	margin-top: 20px;
+}
+
+.mono {
+	font-size: 9pt;
+	font-family: Consolas, courier;
+	fill: #aaa;
+}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<!-- Begin page content -->
+		<div class="container">
+
+			<!-- Part 1: The PiReT header -->
+			<div class="row top-buffer">
+				<div class="page-header">
+					<img src="piret.png" width="90px" height="90px" alt="PiReT Logo" />
+					<h1>PiReT - Pipeline for Reference based Transcriptomics</h1>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<p class="lead">Login to Your Account</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="well">
+						<form action="" wicket:id="form">
+							<br />
+							<div class="form-group">
+								<label for="username" class="control-label">Username</label> <input
+									type="text" class="form-control" wicket:id="username"
+									name="username" value="" title="Please enter you username"
+									placeholder="example@gmail.com"> <span
+									class="help-block"></span>
+							</div>
+							<div class="form-group">
+								<label for="password" class="control-label">Password</label> <input
+									type="password" class="form-control" wicket:id="password"
+									name="password" value="" title="Please enter your password">
+								<span class="help-block"></span>
+							</div>
+
+							<input type="submit"
+								class="btn btn-primary btn-lg" value="Submit" />
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
