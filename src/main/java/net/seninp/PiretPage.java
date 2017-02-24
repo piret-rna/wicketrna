@@ -2,12 +2,13 @@ package net.seninp;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.wicket.Component;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.StatelessLink;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
-import org.apache.wicket.model.Model;
 
 public final class PiretPage extends WebPage {
 
@@ -28,30 +29,18 @@ public final class PiretPage extends WebPage {
 
     super.onInitialize();
 
-    //
-    // right side components
-    final Model<String> selectedElementModel = new Model<String>() {
-      private static final long serialVersionUID = 1L;
-      private String currentSelection = "";
+    final Panel homePanel = new PiretHomePanel("homepanel", new PiretHomePageModel());
 
-      @Override
-      public String getObject() {
-        return currentSelection;
-      }
-
-      public void setObject(String label) {
-        currentSelection = label;
-      }
-
-    };
-
-    this.add(new Label("listelement", selectedElementModel));
+    add(homePanel);
+    homePanel.setVisible(false);
+    homePanel.setOutputMarkupPlaceholderTag(true);
 
     //
     // left side menu
     RepeatingView view = new RepeatingView("list_items") {
       private static final long serialVersionUID = 1L;
       private String activeSelection;
+      private Component activeComponent;
 
       protected void onPopulate() {
         removeAll();
@@ -62,13 +51,20 @@ public final class PiretPage extends WebPage {
             @Override
             public void onClick() {
               activeSelection = this.getId();
-              System.out.println(this.getId());
-              selectedElementModel.setObject(this.getId());
+              System.out.println("selected id: " + this.getId());
             }
           };
           if (linky.getActionKey().equalsIgnoreCase(activeSelection)) {
             link.add(new AttributeAppender("class", " active"));
+            if (HOME.equals(linky.getActionKey())) {
+              if (null != activeComponent && !(activeComponent instanceof PiretHomePanel)) {
+                activeComponent.setVisible(false);
+              }
+              homePanel.setVisible(true);
+              activeComponent = homePanel;
+            }
           }
+
           this.add(link);
           link.add(new Label("name", linky.getDisplayName()));
         }
