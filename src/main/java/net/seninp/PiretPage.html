@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <title>PiReT home</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style>
 .top-buffer {
 	margin-top: 20px;
@@ -35,18 +34,25 @@
 				</div>
 			</div>
 
-			<div class="col-lg-4">
-				<div wicket:id="menu" style="width: 250px;"></div>
-			</div>
-			<div class="col-lg-3">
-				<div wicket:id="feedback" style="width: 360px;"></div>
+			<div class="row">
+				<div class="col-lg-2">
+					<div class="list-group">
+						<a class="list-group-item" wicket:id="list_items"> <span wicket:id="name"></span>
+						</a>
+					</div>
+				</div>
+				<div class="col-lg-10">
+					<p class="mark">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+						<wicket:container wicket:id="listelement"></wicket:container>
+					</p>
+				</div>
+
 			</div>
 		</div>
 	</div>
 
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
