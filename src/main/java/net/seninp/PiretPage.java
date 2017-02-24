@@ -29,11 +29,15 @@ public final class PiretPage extends WebPage {
 
     super.onInitialize();
 
-    final Panel homePanel = new PiretHomePanel("homepanel", new PiretHomePageModel());
-
+    final Panel homePanel = new HomePanel("home_panel", new DummyHomePanelModel());
     add(homePanel);
     homePanel.setVisible(false);
-    homePanel.setOutputMarkupPlaceholderTag(true);
+    // homePanel.setOutputMarkupPlaceholderTag(true);
+
+    final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel",
+        new DummyHomePanelModel());
+    add(fileUplodPanel);
+    fileUplodPanel.setVisible(false);
 
     //
     // left side menu
@@ -56,12 +60,39 @@ public final class PiretPage extends WebPage {
           };
           if (linky.getActionKey().equalsIgnoreCase(activeSelection)) {
             link.add(new AttributeAppender("class", " active"));
+
+            // is it home panel?
             if (HOME.equals(linky.getActionKey())) {
-              if (null != activeComponent && !(activeComponent instanceof PiretHomePanel)) {
+              if (null != activeComponent && !(activeComponent instanceof HomePanel)) {
                 activeComponent.setVisible(false);
               }
               homePanel.setVisible(true);
               activeComponent = homePanel;
+            }
+
+            // is it fileupload panel?
+            if (UPLOAD.equals(linky.getActionKey())) {
+              if (null != activeComponent && !(activeComponent instanceof FileUploadPanel)) {
+                activeComponent.setVisible(false);
+              }
+              fileUplodPanel.setVisible(true);
+              activeComponent = fileUplodPanel;
+            }
+
+            // is it pipeline panel?
+            if (RUN.equals(linky.getActionKey())) {
+              if (null != activeComponent && (activeComponent instanceof HomePanel
+                  || activeComponent instanceof FileUploadPanel)) {
+                activeComponent.setVisible(false);
+              }
+            }
+
+            // is it projects panel?
+            if (PROJECTS.equals(linky.getActionKey())) {
+              if (null != activeComponent && (activeComponent instanceof HomePanel
+                  || activeComponent instanceof FileUploadPanel)) {
+                activeComponent.setVisible(false);
+              }
             }
           }
 

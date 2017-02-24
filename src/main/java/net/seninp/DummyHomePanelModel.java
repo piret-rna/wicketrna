@@ -2,7 +2,7 @@ package net.seninp;
 
 import org.apache.wicket.model.IModel;
 
-public class PiretHomePageModel implements IModel<String> {
+public class DummyHomePanelModel implements IModel<String> {
 
   private static final long serialVersionUID = 5166750069643630485L;
 

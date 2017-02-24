@@ -5,7 +5,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.model.IModel;
 
-public class PiretHomePanel extends Panel {
+public class HomePanel extends Panel {
 
   private static final long serialVersionUID = -6725615122840221173L;
 
@@ -13,7 +13,7 @@ public class PiretHomePanel extends Panel {
     WicketTagIdentifier.registerWellKnownTagName(PANEL);
   }
 
-  public PiretHomePanel(String id, IModel<String> model) {
+  public HomePanel(String id, IModel<String> model) {
     super(id, model);
     this.add(new Label("label", model.getObject()));
   }
