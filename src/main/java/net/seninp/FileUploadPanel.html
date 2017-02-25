@@ -2,11 +2,18 @@
 <html xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:panel>
-		<h1>Upload your file here!</h1>
-		<form wicket:id="form">
-			<input type="file" wicket:id="fileUploadField" /> <input type="submit" value="Upload" />
-		</form>
-		<div wicket:id="feedbackPanel"></div>
+		<div class="col-lg-5">
+			<h3>Upload your files here</h3>
+			<form wicket:id="form">
+				<div class="row">
+					<input type="file" class="file" wicket:id="fileUploadField" />
+				</div>
+				<div class="row top-buffer">
+					<input class="btn btn-success" type="submit" value="Upload" />
+				</div>
+			</form>
+			<div wicket:id="feedbackPanel"></div>
+		</div>
 	</wicket:panel>
 </body>
 </html>
