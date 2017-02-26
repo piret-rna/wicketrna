@@ -40,6 +40,7 @@ public class FileUploadPanel extends Panel {
               System.getProperty("java.io.tmpdir") + "/" + fileUpload.getClientFileName());
 
           fileUpload.writeTo(file);
+
         }
         catch (Exception e) {
           e.printStackTrace();
@@ -49,9 +50,14 @@ public class FileUploadPanel extends Panel {
 
     form.setMultiPart(true);
     // set a limit for uploaded file's size
-    form.setMaxSize(Bytes.gigabytes(4));
+    form.setMaxSize(Bytes.gigabytes(10));
     form.add(fileUploadField);
-    add(new FeedbackPanel("feedbackPanel"));
+
+    FeedbackPanel feedbackPane = new FeedbackPanel("feedbackPanel");
+    // feedbackPane.add(new AttributeAppender("class", " mark"));
+    add(feedbackPane);
+    feedbackPane.setVisible(false);
+
     add(form);
 
   }
