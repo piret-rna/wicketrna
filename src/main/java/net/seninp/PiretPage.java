@@ -46,7 +46,7 @@ public final class PiretPage extends WebPage {
     // left side menu
     RepeatingView view = new RepeatingView("list_items") {
       private static final long serialVersionUID = 1L;
-      private String activeSelection;
+      private String activeSelection = HOME; // put the homepanel on the screen by default
       private Component activeComponent;
 
       protected void onPopulate() {
