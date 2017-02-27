@@ -23,6 +23,12 @@ public class FileUploadPanel extends Panel {
   public FileUploadPanel(String id, IModel<String> model) {
     super(id, model);
 
+    // a feedback panel
+    final FeedbackPanel feedbackPane = new FeedbackPanel("feedbackPanel");
+    add(feedbackPane);
+    feedbackPane.setVisible(false);
+
+    // the upload panel itself
     fileUploadField = new FileUploadField("fileUploadField");
 
     Form<?> form = new Form<Object>("form") {
@@ -41,6 +47,11 @@ public class FileUploadPanel extends Panel {
 
           fileUpload.writeTo(file);
 
+          feedbackPane.debug("file uploaded: " + file.getName());
+          feedbackPane.debug("absolute path: " + file.getAbsolutePath());
+          feedbackPane.debug("file size: " + file.length() + " bytes");
+          feedbackPane.setVisible(true);
+
         }
         catch (Exception e) {
           e.printStackTrace();
@@ -49,14 +60,10 @@ public class FileUploadPanel extends Panel {
     };
 
     form.setMultiPart(true);
+
     // set a limit for uploaded file's size
     form.setMaxSize(Bytes.gigabytes(10));
     form.add(fileUploadField);
-
-    FeedbackPanel feedbackPane = new FeedbackPanel("feedbackPanel");
-    // feedbackPane.add(new AttributeAppender("class", " mark"));
-    add(feedbackPane);
-    feedbackPane.setVisible(false);
 
     add(form);
 
