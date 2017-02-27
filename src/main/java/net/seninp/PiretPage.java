@@ -52,6 +52,10 @@ public final class PiretPage extends WebPage {
     final Panel pipelinePanel = new PipelinePanel("pipeline_panel", new DummyHomePanelModel());
     add(pipelinePanel);
     pipelinePanel.setVisible(false);
+    
+    final Panel projectsPanel = new ProjectsPanel("projects_panel", new DummyHomePanelModel());
+    add(projectsPanel);
+    projectsPanel.setVisible(false);
 
     //
     // left side menu
@@ -104,10 +108,11 @@ public final class PiretPage extends WebPage {
 
             // is it projects panel?
             if (PROJECTS.equals(linky.getActionKey())) {
-              if (null != activeComponent && (activeComponent instanceof HomePanel
-                  || activeComponent instanceof FileUploadPanel)) {
+              if (null != activeComponent && !(activeComponent instanceof ProjectsPanel)) {
                 activeComponent.setVisible(false);
               }
+              projectsPanel.setVisible(true);
+              activeComponent = projectsPanel;
             }
           }
 
