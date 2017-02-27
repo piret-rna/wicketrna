@@ -3,6 +3,8 @@ package net.seninp;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Component;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -23,6 +25,15 @@ public final class PiretPage extends WebPage {
       new MainMenuLink("Home", PiretPage.HOME), new MainMenuLink("Upload files", PiretPage.UPLOAD),
       new MainMenuLink("Run PiReT pipeline", PiretPage.RUN),
       new MainMenuLink("Projects", PiretPage.PROJECTS) });
+
+  @Override
+  protected void onConfigure() {
+    AuthenticatedWebApplication app = (AuthenticatedWebApplication) AuthenticatedWebApplication
+        .get();
+
+    if (!AuthenticatedWebSession.get().isSignedIn())
+      app.restartResponseAtSignInPage();
+  }
 
   @Override
   protected void onInitialize() {
