@@ -1,5 +1,6 @@
 package net.seninp;
 
+import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -26,7 +27,6 @@ public class FileUploadPanel extends Panel {
     // a feedback panel
     final FeedbackPanel feedbackPane = new FeedbackPanel("feedbackPanel");
     add(feedbackPane);
-    feedbackPane.setVisible(false);
 
     // the upload panel itself
     fileUploadField = new FileUploadField("fileUploadField");
@@ -39,22 +39,22 @@ public class FileUploadPanel extends Panel {
       protected void onSubmit() {
         super.onSubmit();
 
-        FileUpload fileUpload = fileUploadField.getFileUpload();
+        List<FileUpload> fileUploads = fileUploadField.getFileUploads();
 
-        try {
-          File file = new File(
-              System.getProperty("java.io.tmpdir") + "/" + fileUpload.getClientFileName());
+        for (FileUpload fileUpload : fileUploads) {
+          try {
+            File file = new File(
+                System.getProperty("java.io.tmpdir") + "/" + fileUpload.getClientFileName());
 
-          fileUpload.writeTo(file);
+            fileUpload.writeTo(file);
 
-          feedbackPane.debug("file uploaded: " + file.getName());
-          feedbackPane.debug("absolute path: " + file.getAbsolutePath());
-          feedbackPane.debug("file size: " + file.length() + " bytes");
-          feedbackPane.setVisible(true);
+            feedbackPane.debug("file uploaded: " + file.getName() + "; absolute path: "
+                + file.getAbsolutePath() + "; file size: " + file.length() + " bytes");
 
-        }
-        catch (Exception e) {
-          e.printStackTrace();
+          }
+          catch (Exception e) {
+            e.printStackTrace();
+          }
         }
       }
     };
