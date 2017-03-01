@@ -2,34 +2,50 @@
 <html xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:panel>
-		<h1>0.0. Important:</h1>
-		<p class="bg-primary">blabla.</p>
-		<h2>0.1. Third party software/packages</h2>
+		<h1>0.0. Background:</h1>
+		<p class="bg-primary">Pipeline for Reference based Transcriptomics..</p>
+		<h2>0.1. Dependencies</h2>
 		<p class="bg-success">
-		jellyfish (v2.2.6)
-		samtools (v1.3.1)
-		bowtie2 (v2.2.8)
-		bwa (v0.7.15-r1140)
-		HTseq (v0.6.1p1)
-		HiSat2 (v2.0.5)
-		bedtools (v2.26.0)
-		gffread (v0.9.6)
+		PiReT uses following third party tools and packages in its workflow:<br>
+		Python (v2.7)<br>
+		Perl (v5.16.3)<br>
+			Parallel::ForkManager (v1.17)<br>
+			String::Approx (v3.27)<br>
+		R (v3.3.1)<br>
+		jellyfish (v2.2.6)<br>
+		samtools (v1.3.1)<br>
+		bowtie2 (v2.2.8)<br>
+		bwa (v0.7.15-r1140)<br>
+		HTseq (v0.6.1p1)<br>
+		HiSat2 (v2.0.5)<br>
+		bedtools (v2.26.0)<br>
+		gffread (v0.9.6)<br>
 		</p>
+		
 		<h3>0.2. Some more info:</h3>
 		<p class="bg-info">Vim salutandi elaboraret eu, quodsi utroque ocurreret his at. Omnis facer debitis vel
 			id. In modo exerci malorum eam. Ius ut elit animal latine, sea errem vituperatoribus id. Ne mel altera
 			salutandi, nam in labores erroribus pertinacia, ferri velit dicta ut per. His vidit oblique quaestio in,
 			debet fastidii ea vix.</p>
-		<h4>0.3. Note:</h4>
-		<p class="bg-warning">No nam partem persius, voluptaria vituperatoribus an eum. Cu ius enim praesent.
-			Vel ad dolorum utroque, odio soleat vis at, id vitae omnium vidisse eum. Debet consul usu et, cu mandamus
-			voluptatibus eos. Agam primis disputationi ad eam, cu cum tempor disputando. Ad quod labores perfecto pro,
-			exerci nonumes senserit quo id.</p>
-		<h5>0.4. Phinally:</h5>
-		<p class="bg-danger">Ut eum amet alii aliquam, ex quo justo fabellas maluisset, natum tractatos
-			partiendo cu mea. An augue posidonium qui, an vis nullam nominati perpetua. Ne dicat movet tempor eum, ad
-			omnium legimus propriae nec. Ex enim rebum appareat nec, eu eos putent argumentum. Unum laudem at cum, ad
-			vero pertinax posidonium qui.</p>
+		
+		<h3>0.3. Developers:</h3>
+		<p class="bg-warning">
+		Migun Shakya <br>
+		Shihai Fenge <br>
+		Pavel Senin<br>
+		</p>
+		
+		<h3>0.4. Citations</h3>
+		<p class="bg-danger">
+		<li><strong>samtools</strong>: Li H., Handsaker B., Wysoker A., Fennell T., Ruan J., Homer N., Marth G., Abecasis G., Durbin R. and 1000 Genome Project Data Processing Subgroup (2009) The Sequence alignment/map (SAM) format and SAMtools. Bioinformatics, 25, 2078-9. [PMID: 19505943]</li>
+		<li><strong>bowtie2</strong>: Langmead, B., &amp; Salzberg, S. L. (2012). Fast gapped-read alignment with Bowtie 2. Nature methods, 9(4), 357-359. [PMID: 22388286]</li>
+		<li><strong>bwa</strong>: Li H. and Durbin R. (2009) Fast and accurate short read alignment with Burrows-Wheeler Transform. Bioinformatics, 25:1754-60. [PMID: 19451168]</li>
+		<li><strong>DESeq2</strong>: Love MI, Huber W and Anders S (2014). “Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.” Genome Biology, 15, pp. 550. [PMID: 25516281]</li>
+		<li><strong>EdgeR</strong>: McCarthy, J. D, Chen, Yunshun, Smyth and K. G (2012). Differential expression analysis of multifactor RNA-Seq experiments with respect to biological variation. Nucleic Acids Research, 40(10), pp. -9. [PMID: 22287627]</li>
+		<li><strong>HTSeq</strong>: Anders, S., Pyl, P. T., &amp; Huber, W. (2014). HTSeq–a Python framework to work with high-throughput sequencing data. Bioinformatics. [PMID: 25260700]</li>
+		<li><strong>HISAT2</strong>: Kim, D., Langmead, B., &amp; Salzberg, S. L. (2015). HISAT: a fast spliced aligner with low memory requirements. Nature methods, 12(4), 357-360. [PMID: 25751142]</li>
+		<li><strong>BEDTools</strong>: Quinlan AR and Hall IM, 2010. BEDTools: a flexible suite of utilities for comparing genomic features. Bioinformatics. 26, 6, pp. 841–842. [PMID: 20110278]</li>
+		
 		<span wicket:id="label"></span>
 	</wicket:panel>
 </body>
