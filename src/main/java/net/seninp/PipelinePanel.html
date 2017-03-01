@@ -3,46 +3,51 @@
 <body>
 	<wicket:panel>
 		<div class="col-lg-9">
-			<h2>Accordion Example</h2>
+			<h2>PiReT</h2>
 			<p>
-				<strong>Note:</strong> The <strong>data-parent</strong> attribute makes sure that all collapsible elements
-				under the specified parent will be closed when one of the collapsible item is shown.
+			PiReT finds differentially expressed genes from raw Illumina FastQ or mapped BAM and SAM files.
 			</p>
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Collapsible Group 1</a>
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Project Metadata</a>
 						</h4>
 					</div>
 					<div id="collapse1" class="panel-collapse collapse in">
-						<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+						<div class="panel-body">Project Name:</div>
+						<div class="panel-body">Description:</div>
+						<div class="panel-body">Contributors:</div>
+						<div class="panel-body">Overall Design:</div>		
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Collapsible Group 2</a>
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Upload Files</a>
 						</h4>
 					</div>
 					<div id="collapse2" class="panel-collapse collapse">
-						<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+					<div class="panel-body">Input file type: FastQ/SAM/BAM</div>
+					<div class="panel-body">Illumina Raw FastQ:</div>
+					<div class="panel-body">BAM files:</div>
+					<div class="panel-body">Experimental Design:</div>
+					<div class="panel-body">Type of Analysis: Prokaryote/Eukaryote/Both</div>
+					<div class="panel-body">Reference Prokaryote Fasta:</div>
+					<div class="panel-body">Reference Prokaryote gtf:</div>
+					<div class="panel-body">Reference Eukaryote Fasta:</div>
+					<div class="panel-body">Reference Eukaryote gtf:</div>
 					</div>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Collapsible Group 3</a>
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Differential expression</a>
 						</h4>
 					</div>
 					<div id="collapse3" class="panel-collapse collapse">
-						<div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-							ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+						<div class="panel-body">P-value:</div>
+						<div class="panel-body">Comparison methods: EdgeR/Deseq2/Both</div>
 					</div>
 				</div>
 			</div>
@@ -50,10 +55,12 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" href="#collapse4">Collapsible panel</a>
+						<a data-toggle="collapse" href="#collapse4">Other Parameters (optional)</a>
 					</h4>
 				</div>
 				<div id="collapse4" class="panel-collapse collapse">
+					<div class="panel-body">CPU:</div>
+					<div class="panel-body">QC_minimum_length:</div>
 					<div class="panel-body">Panel Body</div>
 					<div class="panel-footer">Panel Footer</div>
 				</div>
