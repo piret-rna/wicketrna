@@ -1,5 +1,11 @@
 package net.seninp;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
@@ -30,6 +36,17 @@ public class WicketApplication extends AuthenticatedWebApplication {
     // add your configuration here
     mountPage("login", LoginPage.class);
     mountPage("piret", PiretPage.class);
+
+    String resource = "SqlMapConfig.xml";
+    InputStream inputStream;
+    try {
+      inputStream = Resources.getResourceAsStream(resource);
+      SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+    }
+    catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @Override
