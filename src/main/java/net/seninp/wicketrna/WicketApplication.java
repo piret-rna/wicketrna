@@ -31,22 +31,32 @@ public class WicketApplication extends AuthenticatedWebApplication {
    */
   @Override
   public void init() {
+    //
+    // App init
     super.init();
     this.getMarkupSettings().setStripWicketTags(true);
-    // add your configuration here
+
+    //
+    // mounting pages
     mountPage("login", LoginPage.class);
     mountPage("piret", PiretPage.class);
 
+    //
+    // trying to get the DB connected
     String resource = "SqlMapConfig.xml";
     InputStream inputStream;
     try {
+
+      // load the config
       inputStream = Resources.getResourceAsStream(resource);
       SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-      //
+
       // create the users table if not exists
       SqlSession session = sqlSessionFactory.openSession();
       try {
         session.insert("createUserTable");
+      }
+      catch (Exception e) {
 
       }
       finally {
