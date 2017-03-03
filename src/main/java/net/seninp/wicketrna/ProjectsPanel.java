@@ -1,4 +1,4 @@
-package net.seninp;
+package net.seninp.wicketrna;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;

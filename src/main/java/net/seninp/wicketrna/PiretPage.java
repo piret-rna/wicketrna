@@ -1,4 +1,4 @@
-package net.seninp;
+package net.seninp.wicketrna;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.seninp;
+package net.seninp.wicketrna;
 
 /**
  * Implements a PiReT main menu link.

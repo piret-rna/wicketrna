@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mybatis.example.BlogMapper">
+  <insert id="createUserTable">
+    CREATE TABLE IF NOT EXISTS USER (
+      id INTEGER IDENTITY PRIMARY KEY,
+      username varchar(255),
+      salt varchar(255),
+      email varchar(128),
+      user_folder varchar(1024),
+      key_values varchar(2048)
+    )
+  </insert>
+</mapper>

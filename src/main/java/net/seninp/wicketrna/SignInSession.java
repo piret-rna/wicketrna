@@ -1,4 +1,4 @@
-package net.seninp;
+package net.seninp.wicketrna;
 
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;

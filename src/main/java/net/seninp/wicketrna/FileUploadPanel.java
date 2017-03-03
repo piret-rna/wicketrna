@@ -1,4 +1,4 @@
-package net.seninp;
+package net.seninp.wicketrna;
 
 import java.util.List;
 import org.apache.wicket.markup.html.form.Form;

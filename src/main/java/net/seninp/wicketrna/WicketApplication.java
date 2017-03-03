@@ -1,9 +1,9 @@
-package net.seninp;
+package net.seninp.wicketrna;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
@@ -14,7 +14,7 @@ import org.apache.wicket.markup.html.WebPage;
  * Application object for your web application. If you want to run this application without
  * deploying, run the Start class.
  * 
- * @see net.seninp.Start#main(String[])
+ * @see net.seninp.wicketrna.Start#main(String[])
  */
 public class WicketApplication extends AuthenticatedWebApplication {
 
@@ -42,6 +42,17 @@ public class WicketApplication extends AuthenticatedWebApplication {
     try {
       inputStream = Resources.getResourceAsStream(resource);
       SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+      //
+      // create the users table if not exists
+      SqlSession session = sqlSessionFactory.openSession();
+      try {
+        session.insert("createUserTable");
+
+      }
+      finally {
+        session.close();
+      }
+
     }
     catch (IOException e) {
       // TODO Auto-generated catch block
