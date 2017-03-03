@@ -2,6 +2,7 @@ package net.seninp.wicketrna;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,6 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
+import net.seninp.wicketrna.util.StackTrace;
 
 /**
  * Application object for your web application. If you want to run this application without
@@ -43,21 +45,34 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
     //
     // trying to get the DB connected
+    StringBuilder dbHome = new StringBuilder();
+    dbHome.append("jdbc:hsqldb:file:");
+    dbHome.append(System.getProperty("user.home"));
+    dbHome.append(java.io.File.separator);
+    dbHome.append(".rnadb/database");
+
+    Properties properties = new Properties();
+    properties.setProperty("url", dbHome.toString());
+
     String resource = "SqlMapConfig.xml";
     InputStream inputStream;
     try {
 
       // load the config
       inputStream = Resources.getResourceAsStream(resource);
-      SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+      SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,
+          properties);
 
-      // create the users table if not exists
+      // DB stuff goes here
       SqlSession session = sqlSessionFactory.openSession();
       try {
+
+        // create the users table if not exists
         session.insert("createUserTable");
+
       }
       catch (Exception e) {
-
+        System.err.println(StackTrace.toString(e));
       }
       finally {
         session.close();
@@ -65,8 +80,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
     }
     catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.err.println(StackTrace.toString(e));
     }
   }
 

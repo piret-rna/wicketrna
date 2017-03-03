@@ -9,7 +9,7 @@
       <transactionManager type="JDBC" />
       <dataSource type="UNPOOLED">
         <property name="driver" value="org.hsqldb.jdbcDriver" />
-        <property name="url" value="jdbc:hsqldb:file:/Users/psenin/.rnadb/database" />
+        <property name="url" value="${url}" />
         <property name="username" value="sa" />
       </dataSource>
     </environment>
