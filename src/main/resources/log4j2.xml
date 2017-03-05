@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
-  configDebug="true">
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<Configuration status="WARN">
   <Appenders>
     <Console name="CONSOLE" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
     </Console>
   </Appenders>
   <Loggers>
-    <logger name="org.apache.wicket" level="INFO" additivity="false">
+    <Logger name="org.apache.wicket" level="INFO" additivity="false">
       <AppenderRef ref="CONSOLE" />
-    </logger>
-    <logger name="org.apache.wicket.core.util.resource.locator.ResourceStreamLocator"
+    </Logger>
+    <Logger name="org.apache.wicket.core.util.resource.locator.ResourceStreamLocator"
       level="INFO" additivity="false">
       <AppenderRef ref="CONSOLE" />
-    </logger>
+    </Logger>
     <Root level="INFO">
       <AppenderRef ref="CONSOLE" />
     </Root>
   </Loggers>
-</log4j:configuration>
+</Configuration>
