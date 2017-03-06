@@ -2,6 +2,7 @@ package net.seninp.wicketrna;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Properties;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +11,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import net.seninp.wicketrna.security.PiretWebSession;
 import net.seninp.wicketrna.util.StackTrace;
 
 /**
@@ -19,6 +23,10 @@ import net.seninp.wicketrna.util.StackTrace;
  * @see net.seninp.wicketrna.Start#main(String[])
  */
 public class WicketApplication extends AuthenticatedWebApplication {
+
+  SqlSessionFactory sqlSessionFactory;
+
+  private String dbURL;
 
   /**
    * @see org.apache.wicket.Application#getHomePage()
@@ -33,6 +41,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
    */
   @Override
   public void init() {
+
     //
     // App init
     super.init();
@@ -60,15 +69,18 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
       // load the config
       inputStream = Resources.getResourceAsStream(resource);
-      SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream,
-          properties);
+      sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
 
       // DB stuff goes here
       SqlSession session = sqlSessionFactory.openSession();
+
       try {
 
         // create the users table if not exists
         session.insert("createUserTable");
+
+        // the database url
+        dbURL = (String) session.getConfiguration().getVariables().get("url");
 
       }
       catch (Exception e) {
@@ -91,6 +103,11 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
   @Override
   protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
-    return SignInSession.class;
+    return PiretWebSession.class;
   }
+
+  public String getDBInfo() {
+    return dbURL;
+  }
+
 }

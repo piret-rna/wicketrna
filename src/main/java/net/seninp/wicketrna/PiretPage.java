@@ -21,6 +21,7 @@ public final class PiretPage extends WebPage {
   private static final String RUN = "run";
   private static final String PROJECTS = "projects";
 
+  
   private static final List<MainMenuLink> mainMenuLinks = Arrays.asList(new MainMenuLink[] {
       new MainMenuLink("Home", PiretPage.HOME), new MainMenuLink("Upload files", PiretPage.UPLOAD),
       new MainMenuLink("Run PiReT pipeline", PiretPage.RUN),
@@ -31,8 +32,12 @@ public final class PiretPage extends WebPage {
     AuthenticatedWebApplication app = (AuthenticatedWebApplication) AuthenticatedWebApplication
         .get();
 
-    if (!AuthenticatedWebSession.get().isSignedIn())
+    if (!AuthenticatedWebSession.get().isSignedIn()) {
       app.restartResponseAtSignInPage();
+    }
+    else {
+      
+    }
   }
 
   @Override
@@ -52,7 +57,7 @@ public final class PiretPage extends WebPage {
     final Panel pipelinePanel = new PipelinePanel("pipeline_panel", new DummyHomePanelModel());
     add(pipelinePanel);
     pipelinePanel.setVisible(false);
-    
+
     final Panel projectsPanel = new ProjectsPanel("projects_panel", new DummyHomePanelModel());
     add(projectsPanel);
     projectsPanel.setVisible(false);

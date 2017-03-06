@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.util.string.Strings;
+import net.seninp.wicketrna.security.PiretWebSession;
 
 public final class LoginPage extends WebPage {
 
@@ -26,7 +27,7 @@ public final class LoginPage extends WebPage {
         if (Strings.isEmpty(username) || Strings.isEmpty(password))
           return;
 
-        boolean authResult = SignInSession.get().signIn(username, password);
+        boolean authResult = PiretWebSession.get().signIn(username, password);
 
         if (authResult) {
           continueToOriginalDestination();

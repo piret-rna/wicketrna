@@ -1,22 +1,22 @@
-package net.seninp.wicketrna;
+package net.seninp.wicketrna.security;
 
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
-public final class SignInSession extends AuthenticatedWebSession {
+public final class PiretWebSession extends AuthenticatedWebSession {
 
   private static final long serialVersionUID = -715683341720577958L;
 
   /** Trivial user representation */
-  private String user;
+  private String userName;
 
   /**
    * Constructor
    * 
    * @param request
    */
-  public SignInSession(Request request) {
+  public PiretWebSession(Request request) {
     super(request);
   }
 
@@ -33,28 +33,28 @@ public final class SignInSession extends AuthenticatedWebSession {
 
     final String TEST = "test";
 
-    if (user == null) {
+    if (userName == null) {
       // Trivial password "db"
       if (TEST.equalsIgnoreCase(username) && TEST.equalsIgnoreCase(password)) {
-        user = username;
+        userName = username;
       }
     }
 
-    return user != null;
+    return userName != null;
   }
 
   /**
    * @return User
    */
   public String getUser() {
-    return user;
+    return userName;
   }
 
   /**
    * @param user New user
    */
   public void setUser(final String user) {
-    this.user = user;
+    this.userName = user;
   }
 
   /**
