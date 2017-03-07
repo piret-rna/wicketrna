@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
+import net.seninp.wicketrna.entities.User;
 import net.seninp.wicketrna.security.PiretWebSession;
 import net.seninp.wicketrna.util.StackTrace;
 
@@ -73,11 +74,18 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
       try {
 
+        // the database url
+        dbURL = (String) session.getConfiguration().getVariables().get("url");
+
         // create the users table if not exists
         session.insert("createUserTable");
 
-        // the database url
-        dbURL = (String) session.getConfiguration().getVariables().get("url");
+        // add the test user if not in there
+        User testUser = session.selectOne("getUserByEmail", "psenin@lanl.gov");
+        if (null == testUser) {
+          session.insert("addNewUser",
+              new User(null, "test", "test", "psenin@lanl.gov", "piretfs/test", ""));
+        }
 
       }
       catch (Exception e) {
