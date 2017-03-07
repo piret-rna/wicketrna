@@ -2,7 +2,6 @@ package net.seninp.wicketrna;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.Properties;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,8 +10,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import net.seninp.wicketrna.security.PiretWebSession;
 import net.seninp.wicketrna.util.StackTrace;
 

@@ -1,6 +1,7 @@
 package net.seninp.wicketrna;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
@@ -11,6 +12,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.model.Model;
+import net.seninp.wicketrna.security.PiretWebSession;
 
 public final class PiretPage extends WebPage {
 
@@ -21,7 +24,6 @@ public final class PiretPage extends WebPage {
   private static final String RUN = "run";
   private static final String PROJECTS = "projects";
 
-  
   private static final List<MainMenuLink> mainMenuLinks = Arrays.asList(new MainMenuLink[] {
       new MainMenuLink("Home", PiretPage.HOME), new MainMenuLink("Upload files", PiretPage.UPLOAD),
       new MainMenuLink("Run PiReT pipeline", PiretPage.RUN),
@@ -29,15 +31,16 @@ public final class PiretPage extends WebPage {
 
   @Override
   protected void onConfigure() {
+
+    super.onConfigure();
+
     AuthenticatedWebApplication app = (AuthenticatedWebApplication) AuthenticatedWebApplication
         .get();
 
     if (!AuthenticatedWebSession.get().isSignedIn()) {
       app.restartResponseAtSignInPage();
     }
-    else {
-      
-    }
+
   }
 
   @Override
@@ -45,10 +48,29 @@ public final class PiretPage extends WebPage {
 
     super.onInitialize();
 
+    // the timestamp model to print the current time on the screen
+    Model<String> timeStampModel = new Model<String>() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public String getObject() {
+        return new Date().toString();
+      }
+    };
+
+    // the username model
+    Model<String> userNameModel = new Model<String>() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public String getObject() {
+        return ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
+      }
+    };
+
     final Panel homePanel = new HomePanel("home_panel", new DummyHomePanelModel());
     add(homePanel);
     homePanel.setVisible(false);
-    // homePanel.setOutputMarkupPlaceholderTag(true);
 
     final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel", new DummyHomePanelModel());
     add(fileUplodPanel);
@@ -61,6 +83,9 @@ public final class PiretPage extends WebPage {
     final Panel projectsPanel = new ProjectsPanel("projects_panel", new DummyHomePanelModel());
     add(projectsPanel);
     projectsPanel.setVisible(false);
+
+    add(new Label("username", userNameModel));
+    add(new Label("timeStamp", timeStampModel));
 
     //
     // left side menu

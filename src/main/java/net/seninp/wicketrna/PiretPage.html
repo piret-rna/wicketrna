@@ -36,19 +36,32 @@
 				</div>
 			</div>
 
-			<!-- the menu list -->
+
 			<div class="row">
+				<!-- the menu list goes into two left columns -->
 				<div class="col-lg-2">
 					<div class="list-group">
 						<a class="list-group-item" wicket:id="list_items"> <span wicket:id="name"></span>
 						</a>
 					</div>
 				</div>
+				<!-- the pipeline panels go into ten right columns -->
 				<div class="col-lg-10">
 					<span wicket:id="home_panel"></span> <span wicket:id="fileupload_panel"></span> <span
 						wicket:id="pipeline_panel"></span> <span wicket:id="projects_panel"></span>
 				</div>
+			</div>
 
+			<!-- some debug info goes here -->
+			<div class="row top-buffer">
+				<blockquote class="blockquote">
+					<p class="mark">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> logged as:
+						<wicket:container wicket:id="username">anonymous</wicket:container>
+						|
+						<wicket:container wicket:id="timeStamp">00:00:00</wicket:container>
+					</p>
+				</blockquote>
 			</div>
 		</div>
 	</div>
