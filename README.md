@@ -1,4 +1,4 @@
-#wicketrna 
+#wicketrna - a web-based UI for PiReT
 
 ![PiReT logo](https://raw.githubusercontent.com/seninp-bioinfo/wicketrna/master/src/main/webapp/logo_150.png) 
 
