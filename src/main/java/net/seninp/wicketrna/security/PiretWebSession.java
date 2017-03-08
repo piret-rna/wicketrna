@@ -1,8 +1,12 @@
 package net.seninp.wicketrna.security;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
+import net.seninp.wicketrna.db.WicketRNADb;
+import net.seninp.wicketrna.entities.User;
 
 public final class PiretWebSession extends AuthenticatedWebSession {
 
@@ -31,13 +35,13 @@ public final class PiretWebSession extends AuthenticatedWebSession {
   @Override
   public final boolean authenticate(final String username, final String password) {
 
-    final String TEST = "test";
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("username", username);
+    params.put("password", password);
+    User usr = WicketRNADb.getUser(params);
 
-    if (userName == null) {
-      // Trivial password "db"
-      if (TEST.equalsIgnoreCase(username) && TEST.equalsIgnoreCase(password)) {
-        userName = username;
-      }
+    if (usr != null) {
+      userName = usr.getUsername();
     }
 
     return userName != null;

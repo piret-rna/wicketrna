@@ -2,6 +2,7 @@ package net.seninp.wicketrna.db;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -84,6 +85,13 @@ public class WicketRNADb {
     String dbURL = (String) session.getConfiguration().getVariables().get("url");
     session.close();
     return dbURL;
+  }
+
+  public static User getUser(Map<String, String> params) {
+    SqlSession session = sqlSessionFactory.openSession();
+    User usr = session.selectOne("getUserByUsernameAndPassword", params);
+    session.close();
+    return usr;
   }
 
 }

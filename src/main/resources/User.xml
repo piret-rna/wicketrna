@@ -35,5 +35,10 @@
     resultType="net.seninp.wicketrna.entities.User">
     SELECT * FROM USER WHERE username = #{username}
   </select>
+  
+   <select id="getUserByUsernameAndPassword" parameterType="Map"
+    resultType="net.seninp.wicketrna.entities.User">
+    SELECT * FROM USER WHERE username = #{username} and salt = #{password}
+  </select>
 
 </mapper>
