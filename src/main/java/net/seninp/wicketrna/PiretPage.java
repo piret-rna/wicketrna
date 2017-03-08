@@ -26,7 +26,7 @@ public final class PiretPage extends WebPage {
   private static final String PROJECTS = "projects";
 
   private static final List<MainMenuLink> mainMenuLinks = Arrays.asList(new MainMenuLink[] {
-      new MainMenuLink("Home", PiretPage.HOME), new MainMenuLink("Upload files", PiretPage.UPLOAD),
+      new MainMenuLink("Home", PiretPage.HOME), new MainMenuLink("Manage files", PiretPage.UPLOAD),
       new MainMenuLink("Run PiReT pipeline", PiretPage.RUN),
       new MainMenuLink("Projects", PiretPage.PROJECTS) });
 
@@ -84,7 +84,7 @@ public final class PiretPage extends WebPage {
     add(homePanel);
     homePanel.setVisible(false);
 
-    final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel", new DummyHomePanelModel());
+    final Panel fileUplodPanel = new FileManagementPanel("fileupload_panel", new DummyHomePanelModel());
     add(fileUplodPanel);
     fileUplodPanel.setVisible(false);
 
@@ -133,7 +133,7 @@ public final class PiretPage extends WebPage {
 
             // is it fileupload panel?
             if (UPLOAD.equals(linky.getActionKey())) {
-              if (null != activeComponent && !(activeComponent instanceof FileUploadPanel)) {
+              if (null != activeComponent && !(activeComponent instanceof FileManagementPanel)) {
                 activeComponent.setVisible(false);
               }
               fileUplodPanel.setVisible(true);

@@ -55,7 +55,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
   }
 
   public String getDBInfo() {
-    return WicketRNADb.getdbURL();
+    return WicketRNADb.getDbURI();
   }
 
 }
