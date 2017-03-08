@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.Model;
+import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.security.PiretWebSession;
 
 public final class PiretPage extends WebPage {
@@ -67,6 +68,17 @@ public final class PiretPage extends WebPage {
         return ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
       }
     };
+    
+    // the userfolder model
+    Model<String> userFolderModel = new Model<String>() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public String getObject() {
+        String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
+        return WicketRNADb.getFolderForUser(username);
+      }
+    };
 
     final Panel homePanel = new HomePanel("home_panel", new DummyHomePanelModel());
     add(homePanel);
@@ -85,6 +97,7 @@ public final class PiretPage extends WebPage {
     projectsPanel.setVisible(false);
 
     add(new Label("username", userNameModel));
+    add(new Label("userfolder", userFolderModel));
     add(new Label("timeStamp", timeStampModel));
 
     //
