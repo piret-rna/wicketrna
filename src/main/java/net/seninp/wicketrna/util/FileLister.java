@@ -24,8 +24,10 @@ public class FileLister {
    * @return the list of all file records.
    */
   public List<FileRecord> listFiles(String folder) {
+    
     final List<FileRecord> res = new ArrayList<FileRecord>();
     Path path = FileSystems.getDefault().getPath(folder);
+    
     try {
       Files.walkFileTree(path, new FileVisitor<Path>() {
         @Override
@@ -37,8 +39,7 @@ public class FileLister {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
           // here you have the files to process
-          BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
-          res.add(new FileRecord(file.getFileName().toString(), attr.creationTime(), attr.size()));
+          res.add(new FileRecord(file.getFileName().toString(), attrs.creationTime(), attrs.size()));
           return FileVisitResult.CONTINUE;
         }
 
@@ -54,8 +55,7 @@ public class FileLister {
       });
     }
     catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.err.println(StackTrace.toString(e));
     }
     return res;
   }
