@@ -68,7 +68,7 @@ public final class PiretPage extends WebPage {
         return ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
       }
     };
-    
+
     // the userfolder model
     Model<String> userFolderModel = new Model<String>() {
       private static final long serialVersionUID = 1L;
@@ -84,9 +84,15 @@ public final class PiretPage extends WebPage {
     add(homePanel);
     homePanel.setVisible(false);
 
-    final Panel fileUplodPanel = new FileManagementPanel("fileupload_panel", new DummyHomePanelModel());
+    final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel",
+        new DummyHomePanelModel());
     add(fileUplodPanel);
     fileUplodPanel.setVisible(false);
+
+    final Panel fileManagementPanel = new FileManagementPanel("filemanagement_panel",
+        new DummyHomePanelModel());
+    add(fileManagementPanel);
+    fileManagementPanel.setVisible(false);
 
     final Panel pipelinePanel = new PipelinePanel("pipeline_panel", new DummyHomePanelModel());
     add(pipelinePanel);
@@ -135,8 +141,10 @@ public final class PiretPage extends WebPage {
             if (UPLOAD.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof FileManagementPanel)) {
                 activeComponent.setVisible(false);
+                fileManagementPanel.setVisible(false);
               }
               fileUplodPanel.setVisible(true);
+              fileManagementPanel.setVisible(true);
               activeComponent = fileUplodPanel;
             }
 

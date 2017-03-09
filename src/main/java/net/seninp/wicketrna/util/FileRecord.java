@@ -1,9 +1,12 @@
 package net.seninp.wicketrna.util;
 
+import java.io.Serializable;
 import java.nio.file.attribute.FileTime;
 import java.util.Date;
 
-public class FileRecord {
+public class FileRecord implements Serializable {
+
+  private static final long serialVersionUID = -4599113548243588407L;
 
   private String filename;
   private Date creationTime;

@@ -3,20 +3,20 @@
 <body>
 	<wicket:panel>
 		<div class="col-lg-5">
-			<h3>Upload your files here</h3>
-			<form wicket:id="form">
-				<div class="row">
-					<input type="file" multiple class="file" wicket:id="fileUploadField" />
-				</div>
-				<div class="row top-buffer">
-					<input class="btn btn-success" type="submit" value="Upload" />
-				</div>
+
+			<!-- existing files list -->
+			<form wicket:id="inputForm" id="inputForm">
+				<fieldset>
+					<legend>Checkbox test</legend>
+					<span wicket:id="list"> <span wicket:id="name">test</span> <input wicket:id="check"
+						type="checkbox" />
+					</span> <input type="submit" value="Save" />
+				</fieldset>
 			</form>
-			<div class="row top-buffer">
-				<div class="alert alert-warning">
-					<div wicket:id="feedbackPanel"></div>
-				</div>
+			<div>
+				<span wicket:id="feedback"></span>
 			</div>
+
 		</div>
 	</wicket:panel>
 </body>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html xmlns:wicket="http://wicket.apache.org">
+<body>
+	<wicket:panel>
+		<div class="col-lg-5">
+
+			<!-- Upload files widget -->
+			<h3>Upload files here</h3>
+			<form wicket:id="form">
+				<div class="row">
+					<input type="file" multiple class="file" wicket:id="fileUploadField" />
+				</div>
+				<div class="row top-buffer">
+					<input class="btn btn-success" type="submit" value="Upload" />
+				</div>
+			</form>
+
+			<!-- whatever info - a feedback panel -->
+			<div class="row top-buffer">
+				<div class="alert alert-warning">
+					<div wicket:id="feedbackPanel"></div>
+				</div>
+			</div>
+
+		</div>
+	</wicket:panel>
+</body>
+</html>
