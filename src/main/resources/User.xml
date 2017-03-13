@@ -4,10 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mybatis.example.BlogMapper">
 
+  <!-- DROP THE USER TABLE -->
   <insert id="dropUserTable">
     DROP TABLE IF EXISTS USER
   </insert>
   
+  <!-- CREATE THE USER TABLE -->
   <insert id="createUserTable">
     CREATE TABLE IF NOT EXISTS USER (
     id INTEGER IDENTITY PRIMARY KEY,
@@ -18,9 +20,14 @@
     UNIQUE(email),
     user_folder varchar(1024),
     key_values varchar(2048)
-    );
-    
+    );  
   </insert>
+  
+  <select id="getUserTable" resultType="map">
+    SELECT * FROM INFORMATION_SCHEMA.SYSTEM_TABLES 
+    WHERE TABLE_SCHEM = 'PUBLIC' 
+    AND TABLE_NAME = 'USER'
+  </select>
 
   <insert id="addNewUser" parameterType="net.seninp.wicketrna.entities.User"
     flushCache="true" statementType="PREPARED" useGeneratedKeys="true"
@@ -31,6 +38,10 @@
     (#{username}, #{salt}, #{email}, #{user_folder}, #{key_values})
   </insert>
 
+  <select id="getAllUserNames" resultType="String">
+    SELECT USERNAME FROM USER
+  </select>
+
   <select id="getUserByUsername" parameterType="String"
     resultType="net.seninp.wicketrna.entities.User">
     SELECT * FROM USER WHERE username = #{username}
@@ -40,5 +51,9 @@
     resultType="net.seninp.wicketrna.entities.User">
     SELECT * FROM USER WHERE username = #{username} and salt = #{password}
   </select>
+
+  <insert id="dropUserByName" parameterType="String">
+    DELETE FROM PUBLIC.USER WHERE username = #{username}
+  </insert>
 
 </mapper>

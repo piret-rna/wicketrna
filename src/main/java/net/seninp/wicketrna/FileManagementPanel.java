@@ -6,7 +6,6 @@ import org.apache.wicket.feedback.IFeedback;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -15,8 +14,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.util.file.File;
-import org.apache.wicket.util.lang.Bytes;
 import net.seninp.wicketrna.util.FileLister;
 import net.seninp.wicketrna.util.FileRecord;
 
@@ -24,7 +21,7 @@ public class FileManagementPanel extends Panel {
 
   private static final long serialVersionUID = -6725615122875891173L;
 
-  private FileUploadField fileUploadField;
+  // private FileUploadField fileUploadField;
 
   /**
    * fix those DTD warnings.
