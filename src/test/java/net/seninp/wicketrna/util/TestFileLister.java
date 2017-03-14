@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.List;
@@ -51,8 +52,14 @@ public class TestFileLister {
         BasicFileAttributes fAttr = attrs.get(f.getFileName());
         assertEquals(Long.valueOf(fAttr.size()), f.getFileSize());
         assertEquals(fAttr.creationTime().toMillis(), f.getCreationTime().getTime());
-
       }
+
+      //
+      // drop the folder
+      for (FileRecord f : files) {
+        Files.delete(Paths.get(tmp.toString(), f.getFileName()));
+      }
+      Files.delete(tmp);
     }
     catch (IOException e) {
       System.err.println(StackTrace.toString(e));
