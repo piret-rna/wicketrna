@@ -16,6 +16,12 @@ import org.apache.wicket.model.Model;
 import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.security.PiretWebSession;
 
+/**
+ * The main application page.
+ * 
+ * @author psenin
+ *
+ */
 public final class PiretPage extends WebPage {
 
   private static final long serialVersionUID = 2799448818773645768L;

@@ -29,7 +29,7 @@ public class FileUploadPanel extends Panel {
 
     //
     // a feedback panel
-    final FeedbackPanel feedbackPane = new FeedbackPanel("feedbackPanel");
+    final FeedbackPanel feedbackPane = new FeedbackPanel("feedback-upload");
     add(feedbackPane);
 
     //

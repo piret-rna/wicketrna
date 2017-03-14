@@ -34,7 +34,7 @@ public class FileManagementPanel extends Panel {
 
     //
     // existing files list
-    final FeedbackPanel feedback = new FeedbackPanel("feedback");
+    final FeedbackPanel feedback = new FeedbackPanel("feedback-fmanagement");
     add(feedback);
     add(new InputForm("inputForm", feedback));
 
