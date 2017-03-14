@@ -20,72 +20,101 @@ import net.seninp.wicketrna.util.StackTrace;
  */
 public class WicketRNADb {
 
-  // SQL session factory
   private static SqlSessionFactory sqlSessionFactory;
+
+  /**
+   * Disable constructor.
+   */
+  private WicketRNADb() {
+    super();
+    assert true;
+  }
 
   /**
    * Attempts to establish the database connection. Also creates a database if not exists and
    * populates the test user.
+   * 
+   * @param dbURI the non-default DB URI, specify an empty string for default.
    */
-  public static void connect() {
-
-    // compose the HSQL DB url
-    // <HSQLDB prefix> + <USER HOME> + ".rnadb/database"
-    //
-    StringBuilder dbHome = new StringBuilder();
-    dbHome.append("jdbc:hsqldb:file:");
-    dbHome.append(System.getProperty("user.home"));
-    dbHome.append(java.io.File.separator);
-    dbHome.append(".rnadb/database");
-    dbHome.append(";shutdown=true");
+  public static void connect(String dbURI) {
 
     // set URL with factory builder properties
     Properties properties = new Properties();
-    properties.setProperty("url", dbHome.toString());
+
+    if (null == dbURI || dbURI.isEmpty()) {
+      // compose the HSQL DB url
+      // <HSQLDB prefix> + <USER HOME> + ".rnadb/database"
+      //
+      StringBuilder dbHome = new StringBuilder();
+      dbHome.append("jdbc:hsqldb:file:");
+      dbHome.append(System.getProperty("user.home"));
+      dbHome.append(java.io.File.separator);
+      dbHome.append(".rnadb/database");
+      dbHome.append(";shutdown=true");
+
+      dbURI = dbHome.toString();
+    }
+
+    properties.setProperty("url", dbURI);
 
     // locate the mapper config file and bootstrap the DB
     String resource = "SqlMapConfig.xml";
     InputStream inputStream;
     try {
-
       // load the config
       inputStream = Resources.getResourceAsStream(resource);
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
-
-      // open session
-      SqlSession session = sqlSessionFactory.openSession();
-
-      // bootstrapping
-      try {
-
-        // ***DROP*** and re-create the users table if not exists
-        session.insert("dropUserTable"); // drops the user table...
-        session.insert("createUserTable");
-
-        // add the test user if not in there
-        User testUser = session.selectOne("getUserByUsername", "test");
-        if (null == testUser) {
-          int id = session.insert("addNewUser",
-              new User(null, "test", "test", "psenin@lanl.gov", "piretfs/test", ""));
-          System.out.println(" --> " + id);
-          session.commit();
-        }
-
-      }
-      catch (Exception e) {
-        System.err.println(StackTrace.toString(e));
-      }
-      finally {
-        session.close();
-      }
-
     }
     catch (IOException e) {
       System.err.println(StackTrace.toString(e));
     }
 
-    // done with DB re-creation
-    //
+    recreateTables();
+
+  }
+
+  /**
+   * In the case of building an SqlSession manually use this constructor.
+   * 
+   * @param sqlSessionFactory the SQL Session factory to use for db connection.
+   * 
+   */
+  public static void connect(SqlSessionFactory sqlSessionFactory) {
+    WicketRNADb.sqlSessionFactory = sqlSessionFactory;
+    recreateTables();
+  }
+
+  /**
+   * Re-creates the Schema tables.
+   */
+  private static void recreateTables() {
+
+    // open session
+    SqlSession session = sqlSessionFactory.openSession();
+
+    // bootstrapping
+    try {
+
+      // ***DROP*** and re-create the users table if not exists
+      session.insert("dropUserTable"); // drops the user table...
+      session.insert("createUserTable");
+
+      // add the test user if not in there
+      User testUser = session.selectOne("getUserByUsername", "test");
+      if (null == testUser) {
+        int id = session.insert("addNewUser",
+            new User(null, "test", "test", "psenin@lanl.gov", "piretfs/test", ""));
+        System.out.println(" --> " + id);
+        session.commit();
+      }
+
+    }
+    catch (Exception e) {
+      System.err.println(StackTrace.toString(e));
+    }
+    finally {
+      session.close();
+    }
 
   }
 
@@ -102,30 +131,16 @@ public class WicketRNADb {
   }
 
   /**
-   * Queries the DB and gets a home folder for a specified user.
+   * Get the user record using the username.
    * 
-   * @param username the username.
-   * @return the home folder.
-   */
-  public static String getFolderForUser(String username) {
-    SqlSession session = sqlSessionFactory.openSession();
-    User usr = session.selectOne("getUserByUsername", username);
-    session.close();
-    if (null == usr) {
-      return "";
-    }
-    return usr.getUser_folder();
-  }
-
-  /**
-   * Get the user record using the username and password (authentication).
+   * @param username the username to use.
    * 
-   * @param params the map with populated username and password entries.
    * @return the user record.
    */
-  public static User getUser(Map<String, String> params) {
+  public static User getUser(String username) {
     SqlSession session = sqlSessionFactory.openSession();
-    User usr = session.selectOne("getUserByUsernameAndPassword", params);
+    User usr = session.selectOne("getUserByUsername", username);
+    usr.setSalt("blabla");
     session.close();
     return usr;
   }

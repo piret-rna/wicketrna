@@ -40,7 +40,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
 
     //
     // init the DB connection
-    WicketRNADb.connect();
+    WicketRNADb.connect("");
 
   }
 

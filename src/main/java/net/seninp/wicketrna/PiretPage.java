@@ -76,7 +76,7 @@ public final class PiretPage extends WebPage {
       @Override
       public String getObject() {
         String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
-        return WicketRNADb.getFolderForUser(username);
+        return WicketRNADb.getUser(username).getUser_folder();
       }
     };
 
@@ -84,8 +84,7 @@ public final class PiretPage extends WebPage {
     add(homePanel);
     homePanel.setVisible(false);
 
-    final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel",
-        new DummyHomePanelModel());
+    final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel", new DummyHomePanelModel());
     add(fileUplodPanel);
     fileUplodPanel.setVisible(false);
 

@@ -22,7 +22,7 @@ public class TestWicketRNADb {
 
   private static final String UNAME = "test";
   private static final String PASS = "test";
-  private static final String EMAIL = "test@lanl.gov";
+  private static final String EMAIL = "psenin@lanl.gov";
   private static final String HOMEFOLDER = "piretfs/test";
   private static final String KEYVALUES = "key aaa; value bbb";
 
@@ -42,7 +42,7 @@ public class TestWicketRNADb {
   }
 
   @Test
-  public void testUser() {
+  public void testUserXML() {
     // open session
     SqlSession session = sqlSessionFactory.openSession();
 
@@ -82,6 +82,21 @@ public class TestWicketRNADb {
     session.commit();
     res = session.selectList("getUserTable");
     assertTrue(res.isEmpty());
+
+  }
+
+  @Test
+  public void testUserRNADb() {
+
+    WicketRNADb.connect(sqlSessionFactory);
+
+    User user = WicketRNADb.getUser(UNAME);
+
+    assertFalse(PASS.equalsIgnoreCase(user.getUser_folder()));// db doesnt report passwords
+
+    assertTrue(EMAIL.equals(user.getEmail()));
+    assertTrue(HOMEFOLDER.equals(user.getUser_folder()));
+    assertTrue(user.getKey_values().isEmpty());
 
   }
 
