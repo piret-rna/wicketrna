@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta charset="utf-8" />
+<title>PiReT home</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.8/css/fileinput.min.css">
+<style>
+.top-buffer {
+	margin-top: 20px;
+}
+
+.mono {
+	font-size: 9pt;
+	font-family: Consolas, courier;
+	fill: #aaa;
+}
+</style>
+</head>
+<body>
+	<!-- Part 1: Wrap all page content here -->
+	<div id="wrap">
+		<!-- Begin page content -->
+		<div class="col-lg-12">
+
+			<!-- the header row -->
+			<div class="page-header">
+				<div class="row">
+					<div class="col-lg-1">
+						<img src="logo.png" width="75px" height="75px" alt="PiReT Logo" />
+					</div>
+					<div class="col-lg-11">
+						<h1>PiReT - Pipeline for Reference based Transcriptomics</h1>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<!-- the menu list goes into two left columns -->
+				<div class="col-lg-2"></div>
+				<!-- the pipeline panels go into ten right columns -->
+				<div class="col-lg-10">
+					<div class="row">
+						<span wicket:id="fileupload_panel"></span>
+					</div>
+					<div class="row">
+						<span wicket:id="filemanagement_panel"></span>
+					</div>
+				</div>
+			</div>
+
+			<!-- some debug info goes here -->
+			<div class="row top-buffer">
+				<blockquote class="blockquote">
+					<p class="mark">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+						<wicket:container wicket:id="timeStamp">00:00:00</wicket:container>
+					</p>
+				</blockquote>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.8/js/fileinput.min.js"></script>
+</body>
+</html>

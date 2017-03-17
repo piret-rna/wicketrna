@@ -37,6 +37,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
     // mounting pages
     mountPage("login", LoginPage.class);
     mountPage("piret", PiretPage.class);
+    mountPage("testwidget", TestWidget.class);
 
     //
     // init the DB connection
