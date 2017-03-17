@@ -102,9 +102,8 @@ public class WicketRNADb {
       // add the test user if not in there
       User testUser = session.selectOne("getUserByUsername", "test");
       if (null == testUser) {
-        int id = session.insert("addNewUser",
+        session.insert("addNewUser",
             new User(null, "test", "test", "psenin@lanl.gov", "piretfs/test", ""));
-        System.out.println(" --> " + id);
         session.commit();
       }
 

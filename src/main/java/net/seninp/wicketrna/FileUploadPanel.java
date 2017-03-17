@@ -1,6 +1,7 @@
 package net.seninp.wicketrna;
 
 import java.util.List;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -10,6 +11,8 @@ import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.file.File;
 import org.apache.wicket.util.lang.Bytes;
+import net.seninp.wicketrna.db.WicketRNADb;
+import net.seninp.wicketrna.security.PiretWebSession;
 
 public class FileUploadPanel extends Panel {
 
@@ -48,8 +51,12 @@ public class FileUploadPanel extends Panel {
 
         for (FileUpload fileUpload : fileUploads) {
           try {
-            File file = new File(
-                System.getProperty("java.io.tmpdir") + "/" + fileUpload.getClientFileName());
+
+            String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
+            String homeFolder = WicketRNADb.getUser(username).getUser_folder();
+
+            File file = new File(new File("/Users/psenin", homeFolder).toString(),
+                fileUpload.getClientFileName());
 
             fileUpload.writeTo(file);
 

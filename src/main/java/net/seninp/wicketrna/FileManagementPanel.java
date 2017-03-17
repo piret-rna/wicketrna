@@ -21,6 +21,7 @@ public class FileManagementPanel extends Panel {
   private static final long serialVersionUID = -6725615122875891173L;
 
   // private FileUploadField fileUploadField;
+  private List<FileNameWrapper> data;
 
   /**
    * fix those DTD warnings.
@@ -29,24 +30,31 @@ public class FileManagementPanel extends Panel {
     WicketTagIdentifier.registerWellKnownTagName(PANEL);
   }
 
+  @Override
+  protected void onInitialize() {
+    super.onInitialize();
+    FileLister fl = new FileLister();
+    List<FileRecord> files = fl.listFiles("/Users/psenin/piretfs/test/files");
+
+    data = new ArrayList<FileNameWrapper>();
+    for (FileRecord f : files) {
+      data.add(new FileNameWrapper(f));
+    }
+  }
+
   public FileManagementPanel(String id, IModel<String> model) {
     super(id, model);
-
     //
     // existing files list
     final FeedbackPanel feedback = new FeedbackPanel("feedback-fmanagement");
     add(feedback);
     add(new InputForm("inputForm", feedback));
-
   }
 
   /** form for processing the input. */
   private class InputForm extends Form<Object> {
 
     private static final long serialVersionUID = 1L;
-
-    // holds NameWrapper elements
-    private List<FileNameWrapper> data;
 
     public InputForm(String name, IFeedback feedback) {
 

@@ -26,11 +26,15 @@ public final class PiretPage extends WebPage {
 
   private static final long serialVersionUID = 2799448818773645768L;
 
+  //
+  // these are the keys used for panels
   private static final String HOME = "home";
   private static final String UPLOAD = "upload";
   private static final String RUN = "run";
   private static final String PROJECTS = "projects";
 
+  //
+  // main menu links -- those keys
   private static final List<MainMenuLink> mainMenuLinks = Arrays.asList(new MainMenuLink[] {
       new MainMenuLink("Home", PiretPage.HOME), new MainMenuLink("Manage files", PiretPage.UPLOAD),
       new MainMenuLink("Run PiReT pipeline", PiretPage.RUN),
@@ -38,16 +42,12 @@ public final class PiretPage extends WebPage {
 
   @Override
   protected void onConfigure() {
-
     super.onConfigure();
-
     AuthenticatedWebApplication app = (AuthenticatedWebApplication) AuthenticatedWebApplication
         .get();
-
     if (!AuthenticatedWebSession.get().isSignedIn()) {
       app.restartResponseAtSignInPage();
     }
-
   }
 
   @Override
@@ -55,6 +55,7 @@ public final class PiretPage extends WebPage {
 
     super.onInitialize();
 
+    //
     // the timestamp model to print the current time on the screen
     Model<String> timeStampModel = new Model<String>() {
       private static final long serialVersionUID = 1L;
@@ -65,6 +66,7 @@ public final class PiretPage extends WebPage {
       }
     };
 
+    //
     // the username model
     Model<String> userNameModel = new Model<String>() {
       private static final long serialVersionUID = 1L;
@@ -75,6 +77,7 @@ public final class PiretPage extends WebPage {
       }
     };
 
+    //
     // the userfolder model
     Model<String> userFolderModel = new Model<String>() {
       private static final long serialVersionUID = 1L;
@@ -86,6 +89,8 @@ public final class PiretPage extends WebPage {
       }
     };
 
+    //
+    // panels we ought to see
     final Panel homePanel = new HomePanel("home_panel", new DummyHomePanelModel());
     add(homePanel);
     homePanel.setVisible(false);
@@ -107,6 +112,8 @@ public final class PiretPage extends WebPage {
     add(projectsPanel);
     projectsPanel.setVisible(false);
 
+    //
+    // debug labels
     add(new Label("username", userNameModel));
     add(new Label("userfolder", userFolderModel));
     add(new Label("timeStamp", timeStampModel));
@@ -137,6 +144,7 @@ public final class PiretPage extends WebPage {
             if (HOME.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof HomePanel)) {
                 activeComponent.setVisible(false);
+                fileManagementPanel.setVisible(false);
               }
               homePanel.setVisible(true);
               activeComponent = homePanel;
@@ -157,6 +165,7 @@ public final class PiretPage extends WebPage {
             if (RUN.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof PipelinePanel)) {
                 activeComponent.setVisible(false);
+                fileManagementPanel.setVisible(false);
               }
               pipelinePanel.setVisible(true);
               activeComponent = pipelinePanel;
@@ -166,6 +175,7 @@ public final class PiretPage extends WebPage {
             if (PROJECTS.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof ProjectsPanel)) {
                 activeComponent.setVisible(false);
+                fileManagementPanel.setVisible(false);
               }
               projectsPanel.setVisible(true);
               activeComponent = projectsPanel;
