@@ -95,7 +95,7 @@ public class WicketRNADb {
     // bootstrapping
     try {
 
-      // ***DROP*** and re-create the users table if not exists
+      // ***DROP*** and re-create the USER table if not exists
       session.insert("dropUserTable"); // drops the user table...
       session.insert("createUserTable");
 
