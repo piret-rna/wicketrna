@@ -1,7 +1,10 @@
 package net.seninp.wicketrna;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import org.apache.wicket.feedback.IFeedback;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -12,16 +15,15 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import net.seninp.wicketrna.util.FileLister;
-import net.seninp.wicketrna.util.FileRecord;
+import net.seninp.wicketrna.logic.PiretChangeEvent;
+import net.seninp.wicketrna.logic.PiretChangeListener;
+import net.seninp.wicketrna.util.StackTrace;
 
-public class FileManagementPanel extends Panel {
+public class FileManagementPanel extends Panel implements PiretChangeListener {
 
   private static final long serialVersionUID = -6725615122875891173L;
-
-  // private FileUploadField fileUploadField;
-  private List<FileNameWrapper> data;
 
   /**
    * fix those DTD warnings.
@@ -30,25 +32,27 @@ public class FileManagementPanel extends Panel {
     WicketTagIdentifier.registerWellKnownTagName(PANEL);
   }
 
+  private InputForm iForm;
+
   @Override
   protected void onInitialize() {
-    super.onInitialize();
-    FileLister fl = new FileLister();
-    List<FileRecord> files = fl.listFiles("/Users/psenin/piretfs/test/files");
 
-    data = new ArrayList<FileNameWrapper>();
-    for (FileRecord f : files) {
-      data.add(new FileNameWrapper(f));
-    }
+    super.onInitialize();
+
   }
 
   public FileManagementPanel(String id, IModel<String> model) {
+
     super(id, model);
-    //
-    // existing files list
+
     final FeedbackPanel feedback = new FeedbackPanel("feedback-fmanagement");
+
     add(feedback);
-    add(new InputForm("inputForm", feedback));
+
+    iForm = new InputForm("inputForm", new FileListModel(), feedback);
+
+    add(iForm);
+
   }
 
   /** form for processing the input. */
@@ -56,21 +60,21 @@ public class FileManagementPanel extends Panel {
 
     private static final long serialVersionUID = 1L;
 
-    public InputForm(String name, IFeedback feedback) {
+    ArrayList<FileNameWrapper> data;
+    ListView<FileNameWrapper> listView;
+    Model<ArrayList<FileNameWrapper>> filesModel;
+
+    public InputForm(String name, Model<ArrayList<FileNameWrapper>> fNameModel,
+        IFeedback feedback) {
 
       super(name);
 
-      FileLister fl = new FileLister();
-      List<FileRecord> files = fl.listFiles("/Users/psenin/piretfs/test/files");
-
-      data = new ArrayList<FileNameWrapper>();
-      for (FileRecord f : files) {
-        data.add(new FileNameWrapper(f));
-      }
+      filesModel = fNameModel;
 
       // add a nested list view; as the list is nested in the form, the form will
       // update all FormComponent childs automatically.
-      ListView<FileNameWrapper> listView = new ListView<FileNameWrapper>("list", data) {
+      data = filesModel.getObject();
+      listView = new ListView<FileNameWrapper>("list_items", data) {
         private static final long serialVersionUID = 1L;
 
         protected void populateItem(ListItem<FileNameWrapper> item) {
@@ -81,11 +85,49 @@ public class FileManagementPanel extends Panel {
       };
       listView.setReuseItems(true);
       add(listView);
+
     }
 
     public void onSubmit() {
-      info("data: " + data); // print current contents
+      //
+      // if file is selected -- delete it
+      for (FileNameWrapper entry : data) {
+        if (entry.getSelected()) {
+          try {
+            Path path = Paths.get(entry.getPath());
+            if (Files.exists(path)) {
+              Files.delete(Paths.get(entry.getPath()));
+            }
+          }
+          catch (IOException e) {
+            System.err.println(StackTrace.toString(e));
+          }
+        }
+      }
+
+      listView.removeAll();
+      listView.remove();
+      listView.detach();
+
+      data = filesModel.getObject();
+      listView = new ListView<FileNameWrapper>("list_items", data) {
+        private static final long serialVersionUID = 1L;
+
+        protected void populateItem(ListItem<FileNameWrapper> item) {
+          FileNameWrapper wrapper = (FileNameWrapper) item.getModelObject();
+          item.add(new Label("name", wrapper.getName()));
+          item.add(new CheckBox("check", new PropertyModel<Boolean>(wrapper, "selected")));
+        }
+      };
+      listView.setReuseItems(true);
+      add(listView);
+
     }
+  }
+
+  @Override
+  public void changeEventReceived(PiretChangeEvent evt) {
+    iForm.onSubmit();
   }
 
 }

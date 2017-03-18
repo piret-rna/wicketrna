@@ -7,10 +7,12 @@
 			<!-- existing files list -->
 			<form wicket:id="inputForm" id="inputForm">
 				<fieldset>
-					<legend>Existing files:</legend>
-					<span wicket:id="list"> <span wicket:id="name">test</span> <input wicket:id="check"
-						type="checkbox" />
-					</span> <input type="submit" value="Save" />
+					<legend>Existing files, check box to delete:</legend>
+					<div class="list-group">
+						<span class="list-group-item" wicket:id="list_items"> <span wicket:id="name">test</span> <span
+							class="badge"> <input wicket:id="check" type="checkbox" /></span>
+						</span> <input class="btn btn-primary" type="submit" value="Delete" />
+					</div>
 				</fieldset>
 			</form>
 

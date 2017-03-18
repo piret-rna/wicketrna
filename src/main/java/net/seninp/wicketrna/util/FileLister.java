@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileLister {
 
@@ -23,11 +22,11 @@ public class FileLister {
    * @param folder the folder path.
    * @return the list of all file records.
    */
-  public List<FileRecord> listFiles(String folder) {
-    
-    final List<FileRecord> res = new ArrayList<FileRecord>();
+  public ArrayList<FileRecord> listFiles(String folder) {
+
+    final ArrayList<FileRecord> res = new ArrayList<FileRecord>();
     Path path = FileSystems.getDefault().getPath(folder);
-    
+
     try {
       Files.walkFileTree(path, new FileVisitor<Path>() {
         @Override
@@ -39,7 +38,7 @@ public class FileLister {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
           // here you have the files to process
-          res.add(new FileRecord(file.getFileName().toString(), attrs.creationTime(), attrs.size()));
+          res.add(new FileRecord(file.toAbsolutePath(), attrs.creationTime(), attrs.size()));
           return FileVisitResult.CONTINUE;
         }
 

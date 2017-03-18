@@ -37,16 +37,14 @@ public final class TestWidget extends WebPage {
       }
     };
 
-    // final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel", new
-    // DummyHomePanelModel());
-    // add(fileUplodPanel);
-    // fileUplodPanel.setVisible(false);
-
     final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel", new DummyHomePanelModel());
     add(fileUplodPanel);
 
     final Panel fileManagementPanel = new FileManagementPanel("filemanagement_panel",
         new DummyHomePanelModel());
+    ((FileUploadPanel) fileUplodPanel)
+        .addPiretChangeListener((FileManagementPanel) fileManagementPanel);
+
     add(fileManagementPanel);
 
     add(new Label("timeStamp", timeStampModel));
