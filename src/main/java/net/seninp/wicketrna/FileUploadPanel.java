@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -18,6 +19,12 @@ import net.seninp.wicketrna.logic.PiretChangeEvent;
 import net.seninp.wicketrna.logic.PiretChangeListener;
 import net.seninp.wicketrna.security.PiretWebSession;
 
+/**
+ * The panel which wraps a file upload widget.
+ * 
+ * @author psenin
+ *
+ */
 public class FileUploadPanel extends Panel {
 
   private static final long serialVersionUID = -6725615122875891173L;
@@ -35,6 +42,12 @@ public class FileUploadPanel extends Panel {
     WicketTagIdentifier.registerWellKnownTagName(PANEL);
   }
 
+  /**
+   * Constructor.
+   * 
+   * @param id
+   * @param model
+   */
   public FileUploadPanel(String id, IModel<String> model) {
 
     super(id, model);
@@ -74,7 +87,7 @@ public class FileUploadPanel extends Panel {
 
             fileUpload.writeTo(file);
 
-            feedbackPane.debug("file uploaded: " + file.getName() + "; absolute path: "
+            this.info("file uploaded: " + file.getName() + "; absolute path: "
                 + file.getAbsolutePath() + "; file size: " + file.length() + " bytes");
 
             fireChangeEvent();
@@ -86,29 +99,44 @@ public class FileUploadPanel extends Panel {
         }
       }
     };
-
     form.setMultiPart(true);
 
     // set a limit for uploaded file's size
-    form.setMaxSize(Bytes.gigabytes(10));
+    form.setMaxSize(Bytes.gigabytes(20));
     form.add(fileUploadField);
+
+    ComponentFeedbackMessageFilter filter = new ComponentFeedbackMessageFilter(form);
+    feedbackPane.setFilter(filter);
+    feedbackPane.setEscapeModelStrings(false);
 
     add(form);
 
   }
 
-  public void addPiretChangeListener(PiretChangeListener l) {
-    this.listeners.add(l);
+  /**
+   * Adds a listener which will be notified about the change.
+   * 
+   * @param listener
+   */
+  public void addPiretChangeListener(PiretChangeListener listener) {
+    this.listeners.add(listener);
   }
 
-  public void removePiretChangeListener(PiretChangeListener l) {
-    this.listeners.remove(l);
+  /**
+   * Deletes a listener.
+   * 
+   * @param listener
+   */
+  public void removePiretChangeListener(PiretChangeListener listener) {
+    this.listeners.remove(listener);
   }
 
-  // Event firing method. Called internally by other class methods.
+  /**
+   * Event firing method. Called internally by other class methods.
+   *
+   */
   protected void fireChangeEvent() {
     PiretChangeEvent evt = new PiretChangeEvent(this);
-
     for (PiretChangeListener l : listeners) {
       l.changeEventReceived(evt);
     }

@@ -1,16 +1,17 @@
 package net.seninp.wicketrna;
 
 import java.util.ArrayList;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.LoadableDetachableModel;
 import net.seninp.wicketrna.util.FileLister;
 import net.seninp.wicketrna.util.FileRecord;
 
-public class FileListModel extends Model<ArrayList<FileNameWrapper>> {
+public class FileListModel extends LoadableDetachableModel<ArrayList<FileNameWrapper>> {
 
   private static final long serialVersionUID = 1L;
 
   @Override
-  public ArrayList<FileNameWrapper> getObject() {
+  protected ArrayList<FileNameWrapper> load() {
+    
     FileLister fl = new FileLister();
     ArrayList<FileRecord> files = fl.listFiles("/Users/psenin/piretfs/test/files");
 

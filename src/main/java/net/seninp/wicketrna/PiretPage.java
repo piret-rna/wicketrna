@@ -103,6 +103,8 @@ public final class PiretPage extends WebPage {
         new DummyHomePanelModel());
     add(fileManagementPanel);
     fileManagementPanel.setVisible(false);
+    ((FileUploadPanel) fileUplodPanel)
+        .addPiretChangeListener((FileManagementPanel) fileManagementPanel);
 
     final Panel pipelinePanel = new PipelinePanel("pipeline_panel", new DummyHomePanelModel());
     add(pipelinePanel);
