@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.Model;
 import net.seninp.wicketrna.db.WicketRNADb;
+import net.seninp.wicketrna.models.DummyHomePanelModel;
 import net.seninp.wicketrna.security.PiretWebSession;
 
 /**
@@ -156,7 +157,6 @@ public final class PiretPage extends WebPage {
             if (UPLOAD.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof FileManagementPanel)) {
                 activeComponent.setVisible(false);
-                fileManagementPanel.setVisible(false);
               }
               fileUplodPanel.setVisible(true);
               fileManagementPanel.setVisible(true);

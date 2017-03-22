@@ -8,18 +8,30 @@ import net.seninp.wicketrna.util.FileRecord;
 public class FileListModel extends LoadableDetachableModel<ArrayList<FileNameWrapper>> {
 
   private static final long serialVersionUID = 1L;
+  private String userFolder;
+
+  private ArrayList<FileNameWrapper> data = new ArrayList<FileNameWrapper>();
+
+  public FileListModel(String userFolder) {
+    super();
+    this.userFolder = userFolder.substring(0);
+  }
 
   @Override
   protected ArrayList<FileNameWrapper> load() {
-    
-    FileLister fl = new FileLister();
-    ArrayList<FileRecord> files = fl.listFiles("/Users/psenin/piretfs/test/files");
-
-    ArrayList<FileNameWrapper> data = new ArrayList<FileNameWrapper>();
-    for (FileRecord f : files) {
-      data.add(new FileNameWrapper(f));
+    if (null == userFolder || userFolder.isEmpty()) {
+      data = new ArrayList<FileNameWrapper>();
     }
+    else {
+      FileLister fl = new FileLister();
+      ArrayList<FileRecord> files = fl.listFiles(userFolder);
 
+      data = new ArrayList<FileNameWrapper>();
+      for (FileRecord f : files) {
+        data.add(new FileNameWrapper(f));
+      }
+    }
     return data;
   }
+
 }

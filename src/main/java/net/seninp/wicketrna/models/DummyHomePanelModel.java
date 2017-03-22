@@ -1,4 +1,4 @@
-package net.seninp.wicketrna;
+package net.seninp.wicketrna.models;
 
 import org.apache.wicket.model.IModel;
 

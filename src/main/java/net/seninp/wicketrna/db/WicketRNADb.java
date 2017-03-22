@@ -103,7 +103,7 @@ public class WicketRNADb {
       User testUser = session.selectOne("getUserByUsername", "test");
       if (null == testUser) {
         session.insert("addNewUser",
-            new User(null, "test", "test", "psenin@lanl.gov", "piretfs/test", ""));
+            new User(null, "test", "test", "psenin@lanl.gov", "test", ""));
         session.commit();
       }
 

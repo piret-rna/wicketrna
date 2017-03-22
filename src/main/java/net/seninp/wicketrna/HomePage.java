@@ -1,12 +1,11 @@
 package net.seninp.wicketrna;
 
-import java.util.Date;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import net.seninp.wicketrna.models.TimeStampModel;
 
 /**
  * Implements the landing homepage.
@@ -23,22 +22,15 @@ public class HomePage extends WebPage {
    * @param parameters
    */
   public HomePage(final PageParameters parameters) {
+
     super(parameters);
+    setVersioned(false);
 
-    // the timestamp model to print the current time on the screen
-    Model<String> timeStampModel = new Model<String>() {
-      private static final long serialVersionUID = 1L;
-
-      @Override
-      public String getObject() {
-        return new Date().toString();
-      }
-    };
-
-    // place the label with current wicket version and ct
+    //
+    // place the App and DB info on the screen
     add(new Label("wicketversion", getApplication().getFrameworkSettings().getVersion()));
     add(new Label("hsqlversion", ((WicketApplication) getApplication()).getDBInfo()));
-    add(new Label("timeStamp", timeStampModel));
+    add(new Label("timeStamp", new TimeStampModel()));
 
     //
     // place the "Sign In" button on the screen

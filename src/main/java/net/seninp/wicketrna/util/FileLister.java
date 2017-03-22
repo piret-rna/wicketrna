@@ -9,6 +9,12 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
+/**
+ * Listing files in a folder.
+ * 
+ * @author psenin
+ *
+ */
 public class FileLister {
 
   public FileLister() {

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.feedback.IFeedback;
 import org.apache.wicket.markup.html.basic.Label;
@@ -17,8 +18,11 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.logic.PiretChangeEvent;
 import net.seninp.wicketrna.logic.PiretChangeListener;
+import net.seninp.wicketrna.logic.PiretProperties;
+import net.seninp.wicketrna.security.PiretWebSession;
 import net.seninp.wicketrna.util.StackTrace;
 
 public class FileManagementPanel extends Panel implements PiretChangeListener {
@@ -46,7 +50,15 @@ public class FileManagementPanel extends Panel implements PiretChangeListener {
     final FeedbackPanel feedback = new FeedbackPanel("feedback-fmanagement");
     add(feedback);
 
-    iForm = new InputForm("inputForm", new FileListModel(), feedback);
+    String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
+    String userFolder = "";
+    if (null != username) {
+      userFolder = Paths
+          .get(PiretProperties.getFilesystemPath(), WicketRNADb.getUser(username).getUser_folder())
+          .toString();
+    }
+
+    iForm = new InputForm("inputForm", new FileListModel(userFolder), feedback);
 
     ComponentFeedbackMessageFilter filter = new ComponentFeedbackMessageFilter(iForm);
     feedback.setFilter(filter);
@@ -94,7 +106,7 @@ public class FileManagementPanel extends Panel implements PiretChangeListener {
     }
 
     public void onSubmit() {
-      
+
       //
       // if file is selected -- delete it
       for (FileNameWrapper entry : data) {
@@ -116,8 +128,7 @@ public class FileManagementPanel extends Panel implements PiretChangeListener {
       // remove the list from display
       listView.removeAll();
       listView.remove();
-      
-      
+
       //
       // re-load the files list
       data = filesModel.getObject();
@@ -131,10 +142,10 @@ public class FileManagementPanel extends Panel implements PiretChangeListener {
         }
       };
       filesModel.detach();
-      
+
       listView.setReuseItems(true);
       listView.setOutputMarkupId(true);
-      
+
       add(listView);
 
     }
