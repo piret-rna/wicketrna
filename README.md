@@ -5,4 +5,5 @@
 [![Build Status](https://travis-ci.org/piret-rna/wicketrna.svg?branch=master)](https://travis-ci.org/piret-rna/wicketrna) 
 [![codecov.io](http://codecov.io/github/piret-rna/wicketrna/coverage.svg?branch=master)](http://codecov.io/github/piret-rna/wicketrna?branch=master)
 
+### tech:
 ![tech](https://raw.githubusercontent.com/piret-rna/wicketrna/master/src/main/webapp/tech.jpg)
