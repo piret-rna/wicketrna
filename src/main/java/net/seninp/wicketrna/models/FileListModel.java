@@ -23,8 +23,8 @@ public class FileListModel extends LoadableDetachableModel<ArrayList<FileNameWra
       data = new ArrayList<FileNameWrapper>();
     }
     else {
-      FileLister fl = new FileLister();
-      ArrayList<FileRecord> files = fl.listFiles(userFolder);
+
+      ArrayList<FileRecord> files = FileLister.listFiles(userFolder);
 
       data = new ArrayList<FileNameWrapper>();
       for (FileRecord f : files) {
