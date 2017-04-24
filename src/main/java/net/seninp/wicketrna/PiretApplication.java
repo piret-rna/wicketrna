@@ -4,8 +4,6 @@ import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSessio
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.response.filter.ServerAndClientTimeFilter;
-import net.seninp.wicketrna.datatable.ContactsDatabase;
-import net.seninp.wicketrna.datatable.Index;
 import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.security.PiretWebSession;
 
@@ -17,8 +15,8 @@ import net.seninp.wicketrna.security.PiretWebSession;
  */
 public class PiretApplication extends AuthenticatedWebApplication {
 
-  private final ContactsDatabase contactsDB = new ContactsDatabase(50);
-  
+  // private final ContactsDatabase contactsDB = new ContactsDatabase(50);
+
   /**
    * @see org.apache.wicket.Application#getHomePage()
    */
@@ -37,7 +35,7 @@ public class PiretApplication extends AuthenticatedWebApplication {
     // App init
     super.init();
     this.getMarkupSettings().setStripWicketTags(true);
-    
+
     //
     //
     getDebugSettings().setDevelopmentUtilitiesEnabled(true);
@@ -49,7 +47,7 @@ public class PiretApplication extends AuthenticatedWebApplication {
     mountPage("login", LoginPage.class);
     mountPage("piret", PiretPage.class);
     mountPage("testwidget", TestWidget.class);
-    mountPage("index", Index.class);
+    // mountPage("index", Index.class);
 
     //
     // init the DB connection
@@ -71,12 +69,11 @@ public class PiretApplication extends AuthenticatedWebApplication {
     return WicketRNADb.getDbURI();
   }
 
-  /**
-   * @return contacts database
-   */
-  public ContactsDatabase getContactsDB()
-  {
-          return contactsDB;
-  }
-  
+  // /**
+  // * @return contacts database
+  // */
+  // public ContactsDatabase getContactsDB() {
+  // return contactsDB;
+  // }
+
 }
