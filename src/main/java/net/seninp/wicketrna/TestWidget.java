@@ -43,8 +43,6 @@ public final class TestWidget extends WebPage {
 
     final Panel fileManagementPanel = new FileManagementPanel("filemanagement_panel",
         new DummyHomePanelModel());
-    ((FileUploadPanel) fileUplodPanel)
-        .addPiretChangeListener((FileManagementPanel) fileManagementPanel);
 
     add(fileManagementPanel);
 

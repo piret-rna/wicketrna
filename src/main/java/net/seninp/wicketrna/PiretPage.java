@@ -7,6 +7,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.StatelessLink;
@@ -55,6 +56,8 @@ public final class PiretPage extends WebPage {
   protected void onInitialize() {
 
     super.onInitialize();
+    
+    add(new DebugBar("debug"));
 
     //
     // the timestamp model to print the current time on the screen
@@ -104,9 +107,7 @@ public final class PiretPage extends WebPage {
         new DummyHomePanelModel());
     add(fileManagementPanel);
     fileManagementPanel.setVisible(false);
-    ((FileUploadPanel) fileUplodPanel)
-        .addPiretChangeListener((FileManagementPanel) fileManagementPanel);
-
+    
     final Panel pipelinePanel = new PipelinePanel("pipeline_panel", new DummyHomePanelModel());
     add(pipelinePanel);
     pipelinePanel.setVisible(false);

@@ -1,5 +1,6 @@
 package net.seninp.wicketrna;
 
+import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -25,11 +26,13 @@ public class HomePage extends WebPage {
 
     super(parameters);
     setVersioned(false);
+    
+    add(new DebugBar("debug"));
 
     //
     // place the App and DB info on the screen
     add(new Label("wicketversion", getApplication().getFrameworkSettings().getVersion()));
-    add(new Label("hsqlversion", ((WicketApplication) getApplication()).getDBInfo()));
+    add(new Label("hsqlversion", ((PiretApplication) getApplication()).getDBInfo()));
     add(new Label("timeStamp", new TimeStampModel()));
 
     //

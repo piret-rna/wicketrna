@@ -4,7 +4,7 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 import net.seninp.wicketrna.HomePage;
-import net.seninp.wicketrna.WicketApplication;
+import net.seninp.wicketrna.PiretApplication;
 
 /**
  * Simple test using the WicketTester
@@ -16,7 +16,7 @@ public class TestHomePage
 	@Before
 	public void setUp()
 	{
-		tester = new WicketTester(new WicketApplication());
+		tester = new WicketTester(new PiretApplication());
 	}
 
 	@Test

@@ -1,4 +1,4 @@
-package net.seninp.wicketrna;
+package net.seninp.wicketrna.models;
 
 import java.io.Serializable;
 import java.nio.file.Path;
@@ -8,7 +8,7 @@ import net.seninp.wicketrna.util.FileRecord;
  * It's the wrapped object that could be your business object. the selected property is just here to
  * record whether the checkbox for it was selected.
  */
-class FileNameWrapper implements Serializable {
+public class FileNameWrapper implements Serializable {
 
   private static final long serialVersionUID = 1L;
 

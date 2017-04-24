@@ -20,6 +20,10 @@ public class FileRecord implements Serializable {
     this.fileSize = fileSize;
   }
 
+  public FileRecord() {
+    assert true;
+  }
+
   public String getFileName() {
     return path.getFileName().toString();
   }
@@ -27,7 +31,7 @@ public class FileRecord implements Serializable {
   public void setPath(Path path) {
     this.path = path;
   }
-  
+
   public Path getPath() {
     return this.path;
   }

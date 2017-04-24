@@ -1,4 +1,4 @@
-package net.seninp.wicketrna;
+package net.seninp.wicketrna.models;
 
 import java.util.ArrayList;
 import org.apache.wicket.model.LoadableDetachableModel;

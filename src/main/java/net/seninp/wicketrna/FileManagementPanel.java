@@ -1,33 +1,25 @@
 package net.seninp.wicketrna;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
-import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
-import org.apache.wicket.feedback.IFeedback;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
+import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
-import net.seninp.wicketrna.db.WicketRNADb;
-import net.seninp.wicketrna.logic.PiretChangeEvent;
-import net.seninp.wicketrna.logic.PiretChangeListener;
-import net.seninp.wicketrna.logic.PiretProperties;
-import net.seninp.wicketrna.security.PiretWebSession;
-import net.seninp.wicketrna.util.StackTrace;
+import net.seninp.wicketrna.logic.SortableFileRecordProvider;
+import net.seninp.wicketrna.util.FileRecord;
 
-public class FileManagementPanel extends Panel implements PiretChangeListener {
+public class FileManagementPanel extends Panel {
 
   private static final long serialVersionUID = -6725615122875891173L;
+
+  private FileRecord selected;
 
   /**
    * fix those DTD warnings.
@@ -35,8 +27,6 @@ public class FileManagementPanel extends Panel implements PiretChangeListener {
   static {
     WicketTagIdentifier.registerWellKnownTagName(PANEL);
   }
-
-  private InputForm iForm;
 
   @Override
   protected void onInitialize() {
@@ -47,114 +37,113 @@ public class FileManagementPanel extends Panel implements PiretChangeListener {
 
     super(id, model);
 
-    final FeedbackPanel feedback = new FeedbackPanel("feedback-fmanagement");
-    add(feedback);
+    SortableFileRecordProvider dp = new SortableFileRecordProvider();
 
-    String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
-    String userFolder = "";
-    if (null != username) {
-      userFolder = Paths
-          .get(PiretProperties.getFilesystemPath(), WicketRNADb.getUser(username).getUser_folder())
-          .toString();
-    }
+    final DataView<FileRecord> dataView = new DataView<FileRecord>("oir", dp) {
+      private static final long serialVersionUID = 1L;
 
-    iForm = new InputForm("inputForm", new FileListModel(userFolder), feedback);
+      @Override
+      protected void populateItem(final Item<FileRecord> item) {
+        FileRecord contact = item.getModelObject();
+        item.add(new ActionPanel("actions", item.getModel()));
+        item.add(new Link<Void>("toggleHighlite") {
+          private static final long serialVersionUID = 1L;
 
-    ComponentFeedbackMessageFilter filter = new ComponentFeedbackMessageFilter(iForm);
-    feedback.setFilter(filter);
-    feedback.setEscapeModelStrings(false);
-
-    add(iForm);
-
-  }
-
-  /** form for processing the input. */
-  private class InputForm extends Form<Object> {
-
-    private static final long serialVersionUID = 1L;
-
-    ArrayList<FileNameWrapper> data;
-    ListView<FileNameWrapper> listView;
-    IModel<ArrayList<FileNameWrapper>> filesModel;
-
-    public InputForm(String name, IModel<ArrayList<FileNameWrapper>> fNameModel,
-        IFeedback feedback) {
-
-      super(name);
-
-      filesModel = fNameModel;
-
-      // add a nested list view; as the list is nested in the form, the form will
-      // update all FormComponent childs automatically.
-      data = filesModel.getObject();
-      listView = new ListView<FileNameWrapper>("list_items", data) {
-        private static final long serialVersionUID = 1L;
-
-        protected void populateItem(ListItem<FileNameWrapper> item) {
-          FileNameWrapper wrapper = (FileNameWrapper) item.getModelObject();
-          item.add(new Label("name", wrapper.getName()));
-          item.add(new CheckBox("check", new PropertyModel<Boolean>(wrapper, "selected")));
-        }
-      };
-      filesModel.detach();
-
-      listView.setReuseItems(true);
-      listView.setOutputMarkupId(true);
-
-      add(listView);
-
-    }
-
-    public void onSubmit() {
-
-      //
-      // if file is selected -- delete it
-      for (FileNameWrapper entry : data) {
-        if (entry.getSelected()) {
-          try {
-            Path path = Paths.get(entry.getPath());
-            if (Files.exists(path)) {
-              Files.delete(Paths.get(entry.getPath()));
-              this.info("deleted " + entry.getPath());
-            }
+          @Override
+          public void onClick() {
+            HighlitableDataItem<FileRecord> hitem = (HighlitableDataItem<FileRecord>) item;
+            hitem.toggleHighlite();
           }
-          catch (IOException e) {
-            System.err.println(StackTrace.toString(e));
-          }
-        }
+        });
+        item.add(new Label("contactid", String.valueOf(contact.getFileName())));
+        item.add(new Label("firstname", contact.getFileSize()));
+        item.add(new Label("lastname", contact.getCreationTime()));
+
+        item.add(
+            AttributeModifier.replace("class", () -> (item.getIndex() % 2 == 1) ? "even" : "odd"));
       }
 
-      //
-      // remove the list from display
-      listView.removeAll();
-      listView.remove();
+      @Override
+      protected Item<FileRecord> newItem(String id, int index, IModel<FileRecord> model) {
+        return new HighlitableDataItem<>(id, index, model);
+      }
+    };
 
-      //
-      // re-load the files list
-      data = filesModel.getObject();
-      listView = new ListView<FileNameWrapper>("list_items", data) {
-        private static final long serialVersionUID = 1L;
+    dataView.setItemsPerPage(8L);
+    dataView.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance());
 
-        protected void populateItem(ListItem<FileNameWrapper> item) {
-          FileNameWrapper wrapper = (FileNameWrapper) item.getModelObject();
-          item.add(new Label("name", wrapper.getName()));
-          item.add(new CheckBox("check", new PropertyModel<Boolean>(wrapper, "selected")));
-        }
-      };
-      filesModel.detach();
+    add(new OrderByBorder<String>("orderByFirstName", "firstName", dp) {
+      private static final long serialVersionUID = 1L;
 
-      listView.setReuseItems(true);
-      listView.setOutputMarkupId(true);
+      @Override
+      protected void onSortChanged() {
+        dataView.setCurrentPage(0);
+      }
+    });
 
-      add(listView);
+    add(new OrderByBorder<String>("orderByLastName", "lastName", dp) {
+      private static final long serialVersionUID = 1L;
 
+      @Override
+      protected void onSortChanged() {
+        dataView.setCurrentPage(0);
+      }
+    });
+
+    add(dataView);
+    add(new PagingNavigator("navigator", dataView));
+
+  }
+
+  private static class HighlitableDataItem<T> extends Item<T> {
+    private static final long serialVersionUID = 1L;
+
+    private boolean highlite = false;
+
+    /**
+     * toggles highlite
+     */
+    public void toggleHighlite() {
+      highlite = !highlite;
     }
 
+    /**
+     * Constructor
+     * 
+     * @param id
+     * @param index
+     * @param model
+     */
+    public HighlitableDataItem(String id, int index, IModel<T> model) {
+      super(id, index, model);
+      add(new AttributeModifier("style", "background-color:#80b6ed;") {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public boolean isEnabled(Component component) {
+          return HighlitableDataItem.this.highlite;
+        }
+      });
+    }
   }
 
-  @Override
-  public void changeEventReceived(PiretChangeEvent evt) {
-    iForm.onSubmit();
-  }
+  class ActionPanel extends Panel {
+    private static final long serialVersionUID = 1L;
 
+    /**
+     * @param id component id
+     * @param model model for contact
+     */
+    public ActionPanel(String id, IModel<FileRecord> model) {
+      super(id, model);
+      add(new Link<Void>("select") {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void onClick() {
+          selected = (FileRecord) getParent().getDefaultModelObject();
+        }
+      });
+    }
+  }
 }

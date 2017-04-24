@@ -6,6 +6,7 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class FileLister {
    * @param folder the folder path.
    * @return the list of all file records.
    */
-  public ArrayList<FileRecord> listFiles(String folder) {
+  public static ArrayList<FileRecord> listFiles(String folder) {
 
     final ArrayList<FileRecord> res = new ArrayList<FileRecord>();
     Path path = FileSystems.getDefault().getPath(folder);
@@ -64,4 +65,18 @@ public class FileLister {
     }
     return res;
   }
+
+  public static FileRecord getFileRecord(String absolutePath) {
+    Path file = Paths.get(absolutePath);
+    BasicFileAttributes attrs;
+    try {
+      attrs = Files.readAttributes(file, BasicFileAttributes.class);
+      return new FileRecord(file, attrs.creationTime(), attrs.size());
+    }
+    catch (IOException e) {
+      System.err.println(StackTrace.toString(e));
+    }
+    return new FileRecord();
+  }
+
 }
