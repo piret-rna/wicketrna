@@ -1,5 +1,7 @@
 package net.seninp.wicketrna;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
@@ -15,7 +17,7 @@ import net.seninp.wicketrna.security.PiretWebSession;
  */
 public class PiretApplication extends AuthenticatedWebApplication {
 
-  // private final ContactsDatabase contactsDB = new ContactsDatabase(50);
+  private static final Logger logger = LogManager.getLogger(PiretApplication.class);
 
   /**
    * @see org.apache.wicket.Application#getHomePage()
@@ -33,6 +35,7 @@ public class PiretApplication extends AuthenticatedWebApplication {
 
     //
     // App init
+    logger.info("Starting the PiReT application");
     super.init();
     this.getMarkupSettings().setStripWicketTags(true);
 
@@ -45,12 +48,17 @@ public class PiretApplication extends AuthenticatedWebApplication {
     //
     // mounting pages
     mountPage("login", LoginPage.class);
+    logger.debug("mounted login page to /login");
+
     mountPage("piret", PiretPage.class);
+    logger.debug("mounted main page (PiretPage) to /piret");
+
     mountPage("testwidget", TestWidget.class);
-    // mountPage("index", Index.class);
+    logger.warn("mounted TEST page to /testwidget");
 
     //
     // init the DB connection
+    logger.debug("connecting to the DB");
     WicketRNADb.connect("");
 
   }
@@ -68,12 +76,5 @@ public class PiretApplication extends AuthenticatedWebApplication {
   public String getDBInfo() {
     return WicketRNADb.getDbURI();
   }
-
-  // /**
-  // * @return contacts database
-  // */
-  // public ContactsDatabase getContactsDB() {
-  // return contactsDB;
-  // }
 
 }

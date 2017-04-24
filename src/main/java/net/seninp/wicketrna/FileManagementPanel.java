@@ -12,6 +12,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import net.seninp.wicketrna.logic.SortableFileRecordProvider;
 import net.seninp.wicketrna.util.FileRecord;
 
@@ -37,14 +38,16 @@ public class FileManagementPanel extends Panel {
 
     super(id, model);
 
-    SortableFileRecordProvider dp = new SortableFileRecordProvider();
+    // add(new Label("selectedLabel", new PropertyModel<>(this, "selectedContactLabel"))); 
 
-    final DataView<FileRecord> dataView = new DataView<FileRecord>("oir", dp) {
+    SortableFileRecordProvider dataProvider = new SortableFileRecordProvider();
+
+    final DataView<FileRecord> dataView = new DataView<FileRecord>("oir", dataProvider) {
       private static final long serialVersionUID = 1L;
 
       @Override
       protected void populateItem(final Item<FileRecord> item) {
-        FileRecord contact = item.getModelObject();
+        FileRecord fr = item.getModelObject();
         item.add(new ActionPanel("actions", item.getModel()));
         item.add(new Link<Void>("toggleHighlite") {
           private static final long serialVersionUID = 1L;
@@ -55,9 +58,9 @@ public class FileManagementPanel extends Panel {
             hitem.toggleHighlite();
           }
         });
-        item.add(new Label("contactid", String.valueOf(contact.getFileName())));
-        item.add(new Label("firstname", contact.getFileSize()));
-        item.add(new Label("lastname", contact.getCreationTime()));
+        item.add(new Label("filename", String.valueOf(fr.getFileName())));
+        item.add(new Label("timestamp", fr.getFileSize()));
+        item.add(new Label("filesize", fr.getCreationTime()));
 
         item.add(
             AttributeModifier.replace("class", () -> (item.getIndex() % 2 == 1) ? "even" : "odd"));
@@ -72,7 +75,7 @@ public class FileManagementPanel extends Panel {
     dataView.setItemsPerPage(8L);
     dataView.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance());
 
-    add(new OrderByBorder<String>("orderByFirstName", "firstName", dp) {
+    add(new OrderByBorder<String>("orderByFileName", "fileName", dataProvider) {
       private static final long serialVersionUID = 1L;
 
       @Override
@@ -81,7 +84,7 @@ public class FileManagementPanel extends Panel {
       }
     });
 
-    add(new OrderByBorder<String>("orderByLastName", "lastName", dp) {
+    add(new OrderByBorder<String>("orderByTimestamp", "fileTimestamp", dataProvider) {
       private static final long serialVersionUID = 1L;
 
       @Override
@@ -93,6 +96,18 @@ public class FileManagementPanel extends Panel {
     add(dataView);
     add(new PagingNavigator("navigator", dataView));
 
+  }
+
+  /**
+   * @return string representation of selected contact property
+   */
+  public String getSelectedContactLabel() {
+    if (selected == null) {
+      return "No File Selected";
+    }
+    else {
+      return selected.getFileName() + " " + selected.getCreationTime();
+    }
   }
 
   private static class HighlitableDataItem<T> extends Item<T> {
@@ -146,4 +161,22 @@ public class FileManagementPanel extends Panel {
       });
     }
   }
+
+  /**
+   * @return selected contact
+   */
+  public FileRecord getSelected() {
+    return selected;
+  }
+
+  /**
+   * sets selected contact
+   * 
+   * @param selected
+   */
+  public void setSelected(FileRecord selected) {
+    addStateChange();
+    this.selected = selected;
+  }
+
 }

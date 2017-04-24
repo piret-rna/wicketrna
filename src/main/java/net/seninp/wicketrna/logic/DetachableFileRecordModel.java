@@ -16,6 +16,7 @@
  */
 package net.seninp.wicketrna.logic;
 
+import java.nio.file.Paths;
 import org.apache.wicket.model.LoadableDetachableModel;
 import net.seninp.wicketrna.util.FileLister;
 import net.seninp.wicketrna.util.FileRecord;
@@ -26,31 +27,33 @@ import net.seninp.wicketrna.util.FileRecord;
  * @author igor, psenin
  * 
  */
-public class DetachableFileModel extends LoadableDetachableModel<FileRecord> {
+public class DetachableFileRecordModel extends LoadableDetachableModel<FileRecord> {
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
 
-  private String absoluteFname;
+  private String absolutePath;
+  private String fname;
 
   /**
    * @param c
    */
-  public DetachableFileModel(FileRecord c) {
-    this(c.getFileName());
+  public DetachableFileRecordModel(FileRecord c) {
+    this(c.getPath().toString());
   }
 
   /**
    * @param string
    */
-  public DetachableFileModel(String string) {
-    this.absoluteFname = string;
+  public DetachableFileRecordModel(String absolutePath) {
+    this.absolutePath = absolutePath;
+    this.fname = Paths.get(absolutePath).getFileName().toString();
   }
 
   @Override
   public int hashCode() {
-    return this.absoluteFname.hashCode();
+    return this.absolutePath.hashCode();
   }
 
   /**
@@ -67,9 +70,9 @@ public class DetachableFileModel extends LoadableDetachableModel<FileRecord> {
     else if (obj == null) {
       return false;
     }
-    else if (obj instanceof DetachableFileModel) {
-      DetachableFileModel other = (DetachableFileModel) obj;
-      return other.absoluteFname.equals(this.absoluteFname);
+    else if (obj instanceof DetachableFileRecordModel) {
+      DetachableFileRecordModel other = (DetachableFileRecordModel) obj;
+      return other.absolutePath.equals(this.absolutePath);
     }
     return false;
   }
@@ -80,6 +83,6 @@ public class DetachableFileModel extends LoadableDetachableModel<FileRecord> {
   @Override
   protected FileRecord load() {
     // loads contact from the database
-    return FileLister.getFileRecord(this.absoluteFname);
+    return FileLister.getFileRecord(this.absolutePath);
   }
 }

@@ -4,38 +4,22 @@
 	<wicket:panel>
 		<div class="col-lg-10">
 
-			<!-- existing files list -->
-			<!-- 			<form wicket:id="inputForm" id="inputForm">
-				<fieldset>
-					<legend>Existing files, check box to delete:</legend>
-					<div class="list-group">
-						<span class="list-group-item" wicket:id="list_items"> <span wicket:id="name">test</span> <span
-							class="badge"> <input wicket:id="check" type="checkbox" /></span>
-						</span> <input class="btn btn-primary" type="submit" value="Delete" />
-					</div>
-				</fieldset>
-			</form> -->
-
-			<legend>Existing files management, select check box to use in this run:</legend>
+			<legend>Files management, select an action to manage files:</legend>
 
 			<span wicket:id="navigator">[dataview navigator]</span>
 			<table cellspacing="0" class="dataview">
 				<tr>
 					<th colspan="2">Actions</th>
-					<th>ID</th>
-					<th wicket:id="orderByFirstName">First Name</th>
-					<th wicket:id="orderByLastName">Last Name</th>
-					<th>Home Phone</th>
-					<th>Cell Phone</th>
+					<th wicket:id="orderByFileName">File Name</th>
+					<th wicket:id="orderByTimestamp">Timestamp</th>
+					<th>File size</th>
 				</tr>
 				<tr wicket:id="oir">
 					<td><span wicket:id="actions">[actions]</span></td>
 					<td><a href="#" wicket:id="toggleHighlite">toggle highlite</a></td>
-					<td><span wicket:id="contactid">[contactid]</span></td>
-					<td><span wicket:id="firstname">[firstname]</span></td>
-					<td><span wicket:id="lastname">[lastname]</span></td>
-					<td><span wicket:id="homephone">[homephone]</span></td>
-					<td><span wicket:id="cellphone">[cellphone]</span></td>
+					<td><span wicket:id="filename">[filename]</span></td>
+					<td><span wicket:id="timestamp">[timestamp]</span></td>
+					<td><span wicket:id="filesize">[filesize]</span></td>
 				</tr>
 			</table>
 

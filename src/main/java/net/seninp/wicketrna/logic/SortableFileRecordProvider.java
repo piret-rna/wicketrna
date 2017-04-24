@@ -16,16 +16,12 @@
  */
 package net.seninp.wicketrna.logic;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.IFilterStateLocator;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
-import net.seninp.wicketrna.datatable.ContactsDatabase;
-import net.seninp.wicketrna.datatable.DatabaseLocator;
 import net.seninp.wicketrna.util.FileLister;
 import net.seninp.wicketrna.util.FileRecord;
 
@@ -50,48 +46,44 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
     setSort("filename", SortOrder.ASCENDING);
   }
 
-  protected ContactsDatabase getContactsDB() {
-    return DatabaseLocator.getDatabase();
-  }
-
   @Override
   public Iterator<FileRecord> iterator(long first, long count) {
-    List<FileRecord> contactsFound = FileLister.listFiles(null);
-
-    return filterContacts(contactsFound).subList((int) first, (int) (first + count)).iterator();
+    List<FileRecord> filesFound = FileLister.listFiles("/Users/psenin/piretfs/test/files");
+    return filterFileRecords(filesFound).subList((int) first, (int) (first + count)).iterator();
   }
 
-  private List<FileRecord> filterContacts(List<FileRecord> contactsFound) {
-    ArrayList<FileRecord> result = new ArrayList<>();
-    Date dateFrom = fileNameFilter.getDateFrom();
-    Date dateTo = fileNameFilter.getDateTo();
-
-    for (FileRecord fileRecord : contactsFound) {
-      Date bornDate = fileRecord.getCreationTime();
-
-      if (dateFrom != null && bornDate.before(dateFrom)) {
-        continue;
-      }
-
-      if (dateTo != null && bornDate.after(dateTo)) {
-        continue;
-      }
-
-      result.add(fileRecord);
-    }
-
-    return result;
+  private List<FileRecord> filterFileRecords(List<FileRecord> filesFound) {
+    // ArrayList<FileRecord> result = new ArrayList<>();
+    // Date dateFrom = fileNameFilter.getDateFrom();
+    // Date dateTo = fileNameFilter.getDateTo();
+    //
+    // for (FileRecord fileRecord : filesFound) {
+    // Date fileCreationDate = fileRecord.getCreationTime();
+    //
+    // if (dateFrom != null && fileCreationDate.before(dateFrom)) {
+    // continue;
+    // }
+    //
+    // if (dateTo != null && fileCreationDate.after(dateTo)) {
+    // continue;
+    // }
+    //
+    // result.add(fileRecord);
+    // }
+    //
+    // return result;
+    return filesFound;
   }
 
   @Override
   public long size() {
     // return filterContacts(getContactsDB().getIndex(getSort())).size();
-    return filterContacts(FileLister.listFiles(null)).size();
+    return filterFileRecords(FileLister.listFiles("/Users/psenin/piretfs/test/files")).size();
   }
 
   @Override
   public IModel<FileRecord> model(FileRecord object) {
-    return new DetachableFileModel(object);
+    return new DetachableFileRecordModel(object);
   }
 
   @Override

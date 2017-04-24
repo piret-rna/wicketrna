@@ -14,6 +14,9 @@
       level="INFO" additivity="false">
       <AppenderRef ref="CONSOLE" />
     </Logger>
+        <Logger name="net.seninp.wicketrna" level="DEBUG" additivity="false">
+      <AppenderRef ref="CONSOLE" />
+    </Logger>
     <Root level="INFO">
       <AppenderRef ref="CONSOLE" />
     </Root>
