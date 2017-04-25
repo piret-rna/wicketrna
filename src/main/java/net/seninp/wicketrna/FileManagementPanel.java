@@ -1,7 +1,10 @@
 package net.seninp.wicketrna;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -13,7 +16,10 @@ import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import net.seninp.wicketrna.db.WicketRNADb;
+import net.seninp.wicketrna.logic.PiretProperties;
 import net.seninp.wicketrna.logic.SortableFileRecordProvider;
+import net.seninp.wicketrna.security.PiretWebSession;
 import net.seninp.wicketrna.util.FileRecord;
 
 public class FileManagementPanel extends Panel {
@@ -38,9 +44,11 @@ public class FileManagementPanel extends Panel {
 
     super(id, model);
 
-    // add(new Label("selectedLabel", new PropertyModel<>(this, "selectedContactLabel"))); 
-
-    SortableFileRecordProvider dataProvider = new SortableFileRecordProvider();
+    // figure out th euser's folder location
+    String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
+    Path userFolder = Paths.get(PiretProperties.getFilesystemPath(), WicketRNADb.getUser(username).getUser_folder());
+    
+    SortableFileRecordProvider dataProvider = new SortableFileRecordProvider(userFolder);
 
     final DataView<FileRecord> dataView = new DataView<FileRecord>("oir", dataProvider) {
       private static final long serialVersionUID = 1L;

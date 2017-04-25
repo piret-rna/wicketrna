@@ -23,7 +23,7 @@ public class TestWicketRNADb {
   private static final String UNAME = "test";
   private static final String PASS = "test";
   private static final String EMAIL = "psenin@lanl.gov";
-  private static final String HOMEFOLDER = "piretfs/test";
+  private static final String HOMEFOLDER = "test";
   private static final String KEYVALUES = "key aaa; value bbb";
 
   @BeforeClass
@@ -92,7 +92,7 @@ public class TestWicketRNADb {
 
     User user = WicketRNADb.getUser(UNAME);
 
-    assertFalse(PASS.equalsIgnoreCase(user.getUser_folder()));// db doesnt report passwords
+    assertTrue(PASS.equalsIgnoreCase(user.getUser_folder()));// db doesnt report passwords
 
     assertTrue(EMAIL.equals(user.getEmail()));
     assertTrue(HOMEFOLDER.equals(user.getUser_folder()));

@@ -16,6 +16,9 @@
  */
 package net.seninp.wicketrna.logic;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
@@ -37,48 +40,52 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
   private static final long serialVersionUID = 1L;
 
   private FileRecordFilter fileNameFilter = new FileRecordFilter();
+  private Path userFolder;
 
   /**
    * constructor
+   * 
+   * @param userFolder the user's folder we are working with.
    */
-  public SortableFileRecordProvider() {
-    // set default sort
+  public SortableFileRecordProvider(Path userFolder) {
+    this.userFolder = userFolder;
     setSort("filename", SortOrder.ASCENDING);
   }
 
   @Override
   public Iterator<FileRecord> iterator(long first, long count) {
-    List<FileRecord> filesFound = FileLister.listFiles("/Users/psenin/piretfs/test/files");
+
+    List<FileRecord> filesFound = FileLister.listFiles(this.userFolder.toString());
+
     return filterFileRecords(filesFound).subList((int) first, (int) (first + count)).iterator();
+
   }
 
   private List<FileRecord> filterFileRecords(List<FileRecord> filesFound) {
-    // ArrayList<FileRecord> result = new ArrayList<>();
-    // Date dateFrom = fileNameFilter.getDateFrom();
-    // Date dateTo = fileNameFilter.getDateTo();
-    //
-    // for (FileRecord fileRecord : filesFound) {
-    // Date fileCreationDate = fileRecord.getCreationTime();
-    //
-    // if (dateFrom != null && fileCreationDate.before(dateFrom)) {
-    // continue;
-    // }
-    //
-    // if (dateTo != null && fileCreationDate.after(dateTo)) {
-    // continue;
-    // }
-    //
-    // result.add(fileRecord);
-    // }
-    //
-    // return result;
-    return filesFound;
+    ArrayList<FileRecord> result = new ArrayList<>();
+    Date dateFrom = fileNameFilter.getDateFrom();
+    Date dateTo = fileNameFilter.getDateTo();
+
+    for (FileRecord fileRecord : filesFound) {
+      Date fileCreationDate = fileRecord.getCreationTime();
+
+      if (dateFrom != null && fileCreationDate.before(dateFrom)) {
+        continue;
+      }
+
+      if (dateTo != null && fileCreationDate.after(dateTo)) {
+        continue;
+      }
+
+      result.add(fileRecord);
+    }
+
+    return result;
   }
 
   @Override
   public long size() {
-    // return filterContacts(getContactsDB().getIndex(getSort())).size();
-    return filterFileRecords(FileLister.listFiles("/Users/psenin/piretfs/test/files")).size();
+    return filterFileRecords(FileLister.listFiles(this.userFolder.toString())).size();
   }
 
   @Override
