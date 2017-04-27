@@ -1,4 +1,4 @@
-package net.seninp.wicketrna.util;
+package net.seninp.wicketrna.files;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import net.seninp.wicketrna.util.StackTrace;
 
 /**
  * Listing files in a folder.

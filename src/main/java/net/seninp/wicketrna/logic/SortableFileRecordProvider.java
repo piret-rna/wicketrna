@@ -25,8 +25,8 @@ import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.IFilterStateLocator;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
-import net.seninp.wicketrna.util.FileLister;
-import net.seninp.wicketrna.util.FileRecord;
+import net.seninp.wicketrna.files.FileLister;
+import net.seninp.wicketrna.files.FileRecord;
 
 /**
  * implementation of IDataProvider for contacts that keeps track of sort information

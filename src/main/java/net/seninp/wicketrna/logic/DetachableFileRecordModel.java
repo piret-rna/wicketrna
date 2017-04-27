@@ -18,8 +18,8 @@ package net.seninp.wicketrna.logic;
 
 import java.nio.file.Paths;
 import org.apache.wicket.model.LoadableDetachableModel;
-import net.seninp.wicketrna.util.FileLister;
-import net.seninp.wicketrna.util.FileRecord;
+import net.seninp.wicketrna.files.FileLister;
+import net.seninp.wicketrna.files.FileRecord;
 
 /**
  * detachable model for an instance of contact

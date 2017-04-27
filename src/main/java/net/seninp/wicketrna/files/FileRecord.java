@@ -1,4 +1,4 @@
-package net.seninp.wicketrna.util;
+package net.seninp.wicketrna.files;
 
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;

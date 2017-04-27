@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
+import net.seninp.wicketrna.files.FileLister;
+import net.seninp.wicketrna.files.FileRecord;
 
 public class TestFileLister {
 

@@ -16,9 +16,9 @@ import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import net.seninp.wicketrna.db.WicketRNADb;
+import net.seninp.wicketrna.files.FileRecord;
 import net.seninp.wicketrna.logic.SortableFileRecordProvider;
 import net.seninp.wicketrna.security.PiretWebSession;
-import net.seninp.wicketrna.util.FileRecord;
 
 public class FileManagementPanel extends Panel {
 
