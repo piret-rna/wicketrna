@@ -77,12 +77,19 @@ public class DetachableFileRecordModel extends LoadableDetachableModel<FileRecor
     return false;
   }
 
+  public String getFname() {
+    return fname;
+  }
+
+  public void setFname(String fname) {
+    this.fname = fname;
+  }
+
   /**
    * @see org.apache.wicket.model.LoadableDetachableModel#load()
    */
   @Override
   protected FileRecord load() {
-    // loads contact from the database
     return FileLister.getFileRecord(this.absolutePath);
   }
 }

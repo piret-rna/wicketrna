@@ -9,6 +9,10 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import net.seninp.wicketrna.PiretApplication;
+import net.seninp.wicketrna.PiretServerProperties;
 import net.seninp.wicketrna.entities.User;
 import net.seninp.wicketrna.util.StackTrace;
 
@@ -20,6 +24,8 @@ import net.seninp.wicketrna.util.StackTrace;
  */
 public class WicketRNADb {
 
+  private static final Logger logger = LogManager.getLogger(WicketRNADb.class);
+  
   private static SqlSessionFactory sqlSessionFactory;
 
   /**
@@ -38,6 +44,8 @@ public class WicketRNADb {
    */
   public static void connect(String dbURI) {
 
+    logger.info("initializing the Piert database using URI:" + dbURI);
+    
     // set URL with factory builder properties
     Properties properties = new Properties();
 
@@ -47,12 +55,14 @@ public class WicketRNADb {
       //
       StringBuilder dbHome = new StringBuilder();
       dbHome.append("jdbc:hsqldb:file:");
-      dbHome.append(System.getProperty("user.home"));
+      dbHome.append(System.getProperty(PiretServerProperties.DB_DIR_KEY));
       dbHome.append(java.io.File.separator);
-      dbHome.append(".rnadb/database");
+      dbHome.append("piretdatabase");
       dbHome.append(";shutdown=true");
 
       dbURI = dbHome.toString();
+      
+      logger.info("since DB URI is null, using the default settings:" + dbURI);
     }
 
     properties.setProperty("url", dbURI);

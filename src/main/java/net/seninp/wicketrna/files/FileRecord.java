@@ -1,11 +1,11 @@
 package net.seninp.wicketrna.files;
 
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.util.Date;
-import org.apache.wicket.util.io.IClusterable;
 
-public class FileRecord implements IClusterable {
+public class FileRecord implements Serializable {
 
   private static final long serialVersionUID = -4599113548243588407L;
 
