@@ -17,7 +17,6 @@ import org.apache.wicket.util.lang.Bytes;
 import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.logic.PiretChangeEvent;
 import net.seninp.wicketrna.logic.PiretChangeListener;
-import net.seninp.wicketrna.logic.PiretProperties;
 import net.seninp.wicketrna.security.PiretWebSession;
 
 /**
@@ -83,7 +82,8 @@ public class FileUploadPanel extends Panel {
             }
             String homeFolder = WicketRNADb.getUser(username).getUser_folder();
 
-            String userFolder = Paths.get(PiretProperties.getFilesystemPath(), homeFolder)
+            String userFolder = Paths
+                .get(System.getProperty(PiretServerProperties.USERS_FOLDER_KEY), homeFolder)
                 .toString();
 
             File file = new File(userFolder, fileUpload.getClientFileName());

@@ -15,9 +15,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
 import net.seninp.wicketrna.db.WicketRNADb;
-import net.seninp.wicketrna.logic.PiretProperties;
 import net.seninp.wicketrna.logic.SortableFileRecordProvider;
 import net.seninp.wicketrna.security.PiretWebSession;
 import net.seninp.wicketrna.util.FileRecord;
@@ -46,8 +44,9 @@ public class FileManagementPanel extends Panel {
 
     // figure out th euser's folder location
     String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
-    Path userFolder = Paths.get(PiretProperties.getFilesystemPath(), WicketRNADb.getUser(username).getUser_folder());
-    
+    Path userFolder = Paths.get(System.getProperty(PiretServerProperties.USERS_FOLDER_KEY),
+        WicketRNADb.getUser(username).getUser_folder());
+
     SortableFileRecordProvider dataProvider = new SortableFileRecordProvider(userFolder);
 
     final DataView<FileRecord> dataView = new DataView<FileRecord>("oir", dataProvider) {

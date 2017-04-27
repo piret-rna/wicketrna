@@ -28,17 +28,25 @@ public class Start
 	 */
 	public static void main(String[] args)
 	{
+	  
+
+    // take care about properties
+    PiretServerProperties properties = new PiretServerProperties();
+    System.err.println(properties.echoProperties());
+
+    // wicket switch
 		System.setProperty("wicket.configuration", "development");
 
+		// configure the server
 		Server server = new Server();
 
 		HttpConfiguration http_config = new HttpConfiguration();
 		http_config.setSecureScheme("https");
 		http_config.setSecurePort(8443);
 		http_config.setOutputBufferSize(32768);
-
 		ServerConnector http = new ServerConnector(server, new HttpConnectionFactory(http_config));
-		http.setPort(8080);
+
+		http.setPort(Integer.valueOf(System.getProperty(PiretServerProperties.PORT_KEY)));
 		http.setIdleTimeout(1000 * 60 * 60);
 
 		server.addConnector(http);
