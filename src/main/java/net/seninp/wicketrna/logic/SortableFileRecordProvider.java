@@ -16,7 +16,6 @@
  */
 package net.seninp.wicketrna.logic;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -29,9 +28,9 @@ import net.seninp.wicketrna.files.FileLister;
 import net.seninp.wicketrna.files.FileRecord;
 
 /**
- * implementation of IDataProvider for contacts that keeps track of sort information
+ * implementation of IDataProvider for file records that keeps track of sort information.
  * 
- * @author igor
+ * @author igor, seninp
  * 
  */
 public class SortableFileRecordProvider extends SortableDataProvider<FileRecord, String>
@@ -40,28 +39,28 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
   private static final long serialVersionUID = 1L;
 
   private FileRecordFilter fileNameFilter = new FileRecordFilter();
-  private Path userFolder;
+
+  private String userFolder;
 
   /**
    * constructor
    * 
    * @param userFolder the user's folder we are working with.
    */
-  public SortableFileRecordProvider(Path userFolder) {
+  public SortableFileRecordProvider(String userFolder) {
     this.userFolder = userFolder;
-    setSort("filename", SortOrder.ASCENDING);
+    setSort("timestamp", SortOrder.DESCENDING);
+    System.out.println("size -- > " + size());
   }
 
   @Override
   public Iterator<FileRecord> iterator(long first, long count) {
-
-    List<FileRecord> filesFound = FileLister.listFiles(this.userFolder.toString());
-
+    List<FileRecord> filesFound = FileLister.listFiles(this.userFolder.toString(), getSort());
     return filterFileRecords(filesFound).subList((int) first, (int) (first + count)).iterator();
-
   }
 
   private List<FileRecord> filterFileRecords(List<FileRecord> filesFound) {
+    System.out.println("Sort order: " + getSort());
     ArrayList<FileRecord> result = new ArrayList<>();
     Date dateFrom = fileNameFilter.getDateFrom();
     Date dateTo = fileNameFilter.getDateTo();
@@ -85,7 +84,10 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
 
   @Override
   public long size() {
-    return filterFileRecords(FileLister.listFiles(this.userFolder.toString())).size();
+    int size = filterFileRecords(FileLister.listFiles(this.userFolder.toString(), getSort()))
+        .size();
+    System.out.println("called size: " + size);
+    return size;
   }
 
   @Override
@@ -100,6 +102,7 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
 
   @Override
   public void setFilterState(FileRecordFilter state) {
+    System.out.println("filter state " + state);
     fileNameFilter = state;
   }
 }

@@ -1,39 +1,48 @@
 package net.seninp.wicketrna.files;
 
-import java.io.Serializable;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.util.Date;
+import org.apache.wicket.util.io.IClusterable;
 
-public class FileRecord implements Serializable {
+public class FileRecord implements IClusterable {
 
   private static final long serialVersionUID = -4599113548243588407L;
 
-  private Path path;
+  private String path;
+  private String fileName;
   private Date creationTime;
   private Long fileSize;
-
-  public FileRecord(Path path, FileTime fileTime, Long fileSize) {
-    super();
-    this.path = path;
-    this.creationTime = new Date(fileTime.toMillis());
-    this.fileSize = fileSize;
-  }
+  
+  private String timestamp; // for sorting
 
   public FileRecord() {
     assert true;
   }
 
-  public String getFileName() {
-    return path.getFileName().toString();
+  public FileRecord(String path, FileTime fileTime, Long fileSize) {
+    super();
+    this.path = path;
+    this.fileName = Paths.get(path).getFileName().toString();
+    this.creationTime = new Date(fileTime.toMillis());
+    this.timestamp = Long.valueOf(fileTime.toMillis()).toString();
+    this.fileSize = fileSize;
   }
 
-  public void setPath(Path path) {
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
     this.path = path;
   }
 
-  public Path getPath() {
-    return this.path;
+  public String getFileName() {
+    return fileName;
+  }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
   }
 
   public Date getCreationTime() {
@@ -42,6 +51,14 @@ public class FileRecord implements Serializable {
 
   public void setCreationTime(Date creationTime) {
     this.creationTime = creationTime;
+  }
+
+  public String getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(String timestamp) {
+    this.timestamp = timestamp;
   }
 
   public Long getFileSize() {
@@ -55,7 +72,7 @@ public class FileRecord implements Serializable {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("FileRecord [fname=").append(path).append(", creationTime=").append(creationTime)
+    builder.append("FileRecord [path=").append(path).append(", creationTime=").append(creationTime)
         .append(", fileSize=").append(fileSize).append("]");
     return builder.toString();
   }

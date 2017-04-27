@@ -56,9 +56,11 @@ public final class PiretPage extends WebPage {
   protected void onInitialize() {
 
     super.onInitialize();
-    
-    add(new DebugBar("debug"));
 
+    add(new DebugBar("debug"));
+  }
+
+  public PiretPage() {
     //
     // the timestamp model to print the current time on the screen
     Model<String> timeStampModel = new Model<String>() {
@@ -107,7 +109,7 @@ public final class PiretPage extends WebPage {
         new DummyHomePanelModel());
     add(fileManagementPanel);
     fileManagementPanel.setVisible(false);
-    
+
     final Panel pipelinePanel = new PipelinePanel("pipeline_panel", new DummyHomePanelModel());
     add(pipelinePanel);
     pipelinePanel.setVisible(false);

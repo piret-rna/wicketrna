@@ -9,6 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import net.seninp.wicketrna.util.StackTrace;
 
 /**
@@ -46,7 +49,8 @@ public class FileLister {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
           // here you have the files to process
-          res.add(new FileRecord(file.toAbsolutePath(), attrs.creationTime(), attrs.size()));
+          res.add(
+              new FileRecord(file.toAbsolutePath().toString(), attrs.creationTime(), attrs.size()));
           return FileVisitResult.CONTINUE;
         }
 
@@ -67,12 +71,52 @@ public class FileLister {
     return res;
   }
 
+  public static ArrayList<FileRecord> listFiles(String folder, SortParam<String> sort) {
+    ArrayList<FileRecord> list = listFiles(folder);
+    if (null == sort) {
+      return list;
+    }
+    if (sort.getProperty().equalsIgnoreCase("fileName")) {
+      Collections.sort(list, new Comparator<FileRecord>() {
+        @Override
+        public int compare(final FileRecord lhs, FileRecord rhs) {
+          if (sort.isAscending()) {
+            return lhs.getFileName().compareTo(rhs.getFileName());
+          }
+          else {
+            return rhs.getFileName().compareTo(lhs.getFileName());
+          }
+        }
+      });
+    }
+    else if (sort.getProperty().equalsIgnoreCase("timestamp")) {
+      Collections.sort(list, new Comparator<FileRecord>() {
+        @Override
+        public int compare(final FileRecord lhs, FileRecord rhs) {
+          if (sort.isAscending()) {
+            return lhs.getCreationTime().compareTo(rhs.getCreationTime());
+          }
+          else {
+            return rhs.getCreationTime().compareTo(lhs.getCreationTime());
+          }
+        }
+      });
+    }
+    return list;
+  }
+
+  /**
+   * Queries file system for additional file info.
+   * 
+   * @param absolutePath
+   * @return
+   */
   public static FileRecord getFileRecord(String absolutePath) {
     Path file = Paths.get(absolutePath);
     BasicFileAttributes attrs;
     try {
       attrs = Files.readAttributes(file, BasicFileAttributes.class);
-      return new FileRecord(file, attrs.creationTime(), attrs.size());
+      return new FileRecord(file.toString(), attrs.creationTime(), attrs.size());
     }
     catch (IOException e) {
       System.err.println(StackTrace.toString(e));

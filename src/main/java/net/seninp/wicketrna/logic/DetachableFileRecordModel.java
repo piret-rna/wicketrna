@@ -16,7 +16,6 @@
  */
 package net.seninp.wicketrna.logic;
 
-import java.nio.file.Paths;
 import org.apache.wicket.model.LoadableDetachableModel;
 import net.seninp.wicketrna.files.FileLister;
 import net.seninp.wicketrna.files.FileRecord;
@@ -34,7 +33,6 @@ public class DetachableFileRecordModel extends LoadableDetachableModel<FileRecor
   private static final long serialVersionUID = 1L;
 
   private String absolutePath;
-  private String fname;
 
   /**
    * @param c
@@ -48,7 +46,6 @@ public class DetachableFileRecordModel extends LoadableDetachableModel<FileRecor
    */
   public DetachableFileRecordModel(String absolutePath) {
     this.absolutePath = absolutePath;
-    this.fname = Paths.get(absolutePath).getFileName().toString();
   }
 
   @Override
@@ -77,19 +74,13 @@ public class DetachableFileRecordModel extends LoadableDetachableModel<FileRecor
     return false;
   }
 
-  public String getFname() {
-    return fname;
-  }
-
-  public void setFname(String fname) {
-    this.fname = fname;
-  }
-
   /**
    * @see org.apache.wicket.model.LoadableDetachableModel#load()
    */
   @Override
   protected FileRecord load() {
-    return FileLister.getFileRecord(this.absolutePath);
+    FileRecord rec = FileLister.getFileRecord(this.absolutePath);
+    System.out.println("load load load " + rec.getTimestamp());
+    return rec;
   }
 }

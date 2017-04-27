@@ -1,7 +1,13 @@
 package net.seninp.wicketrna;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
@@ -19,10 +25,15 @@ import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.files.FileRecord;
 import net.seninp.wicketrna.logic.SortableFileRecordProvider;
 import net.seninp.wicketrna.security.PiretWebSession;
+import net.seninp.wicketrna.util.StackTrace;
 
 public class FileManagementPanel extends Panel {
 
   private static final long serialVersionUID = -6725615122875891173L;
+
+  private static final Logger logger = LogManager.getLogger(FileManagementPanel.class);
+
+  private static final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
   private FileRecord selected;
 
@@ -36,18 +47,38 @@ public class FileManagementPanel extends Panel {
   @Override
   protected void onInitialize() {
     super.onInitialize();
+    logger.info("on initialize called");
   }
 
   public FileManagementPanel(String id, IModel<String> model) {
 
     super(id, model);
 
+    logger.info("constructor called");
+
     // figure out th euser's folder location
     String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
-    Path userFolder = Paths.get(System.getProperty(PiretServerProperties.USERS_FOLDER_KEY),
-        WicketRNADb.getUser(username).getUser_folder());
 
-    SortableFileRecordProvider dataProvider = new SortableFileRecordProvider(userFolder);
+    // if username is null, use the dummy folder
+    Path userFolder = Paths.get(System.getProperty(PiretServerProperties.USERS_FOLDER_KEY),
+        "dummy");
+
+    try {
+      if (null != username) {
+        userFolder = Paths.get(System.getProperty(PiretServerProperties.USERS_FOLDER_KEY),
+            WicketRNADb.getUser(username).getUser_folder());
+        if (!Files.exists(userFolder)) {
+          logger.info("creating the user folder: " + userFolder.toString());
+          Files.createDirectories(userFolder);
+        }
+      }
+    }
+    catch (IOException e) {
+      logger.error("an exception while creating the user folder: " + StackTrace.toString(e));
+    }
+
+    System.out.println("creatinga data provider");
+    SortableFileRecordProvider dataProvider = new SortableFileRecordProvider(userFolder.toString());
 
     final DataView<FileRecord> dataView = new DataView<FileRecord>("oir", dataProvider) {
       private static final long serialVersionUID = 1L;
@@ -66,8 +97,8 @@ public class FileManagementPanel extends Panel {
           }
         });
         item.add(new Label("filename", String.valueOf(fr.getFileName())));
-        item.add(new Label("timestamp", fr.getFileSize()));
-        item.add(new Label("filesize", fr.getCreationTime()));
+        item.add(new Label("timestamp", dateFormat.format(fr.getCreationTime())));
+        item.add(new Label("filesize", fr.getFileSize()));
 
         item.add(
             AttributeModifier.replace("class", () -> (item.getIndex() % 2 == 1) ? "even" : "odd"));
@@ -87,15 +118,17 @@ public class FileManagementPanel extends Panel {
 
       @Override
       protected void onSortChanged() {
+        System.out.println("sort order changed");
         dataView.setCurrentPage(0);
       }
     });
 
-    add(new OrderByBorder<String>("orderByTimestamp", "fileTimestamp", dataProvider) {
+    add(new OrderByBorder<String>("orderByTimestamp", "timeStamp", dataProvider) {
       private static final long serialVersionUID = 1L;
 
       @Override
       protected void onSortChanged() {
+        System.out.println("sort order changed");
         dataView.setCurrentPage(0);
       }
     });
@@ -119,7 +152,6 @@ public class FileManagementPanel extends Panel {
 
   private static class HighlitableDataItem<T> extends Item<T> {
     private static final long serialVersionUID = 1L;
-
     private boolean highlite = false;
 
     /**
@@ -164,6 +196,7 @@ public class FileManagementPanel extends Panel {
         @Override
         public void onClick() {
           selected = (FileRecord) getParent().getDefaultModelObject();
+          logger.info("selected: " + selected.getFileName());
         }
       });
     }

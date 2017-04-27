@@ -62,6 +62,8 @@ public class PiretStart {
         logger.info("creating the app Users folder: " + piretUserFolder.toString());
         Files.createDirectories(piretUserFolder);
       }
+      Path piretDummyFolder = Paths.get(piretUserFolder.toString(), "dummy");
+      Files.createDirectories(piretDummyFolder);
 
     }
     catch (IOException e) {
