@@ -11,7 +11,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import net.seninp.wicketrna.PiretApplication;
 import net.seninp.wicketrna.PiretServerProperties;
 import net.seninp.wicketrna.entities.User;
 import net.seninp.wicketrna.util.StackTrace;
