@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.markup.html.basic.Label;
@@ -21,8 +22,10 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.files.FileRecord;
+import net.seninp.wicketrna.logic.ConfirmationLink;
 import net.seninp.wicketrna.logic.SortableFileRecordProvider;
 import net.seninp.wicketrna.security.PiretWebSession;
 import net.seninp.wicketrna.util.StackTrace;
@@ -56,7 +59,9 @@ public class FileManagementPanel extends Panel {
 
     logger.info("constructor called");
 
-    // figure out th euser's folder location
+    add(new Label("selectedFile", new PropertyModel<>(this, "selectedFileRecordLabel")));
+
+    // figure out the user's folder location
     String username = ((PiretWebSession) AuthenticatedWebSession.get()).getUser();
 
     // if username is null, use the dummy folder
@@ -138,18 +143,6 @@ public class FileManagementPanel extends Panel {
 
   }
 
-  /**
-   * @return string representation of selected contact property
-   */
-  public String getSelectedContactLabel() {
-    if (selected == null) {
-      return "No File Selected";
-    }
-    else {
-      return selected.getFileName() + " " + selected.getCreationTime();
-    }
-  }
-
   private static class HighlitableDataItem<T> extends Item<T> {
     private static final long serialVersionUID = 1L;
     private boolean highlite = false;
@@ -190,15 +183,29 @@ public class FileManagementPanel extends Panel {
      */
     public ActionPanel(String id, IModel<FileRecord> model) {
       super(id, model);
-      add(new Link<Void>("select") {
+      add(new ConfirmationLink<Void>("delete",
+          "Do you want to delete " + model.getObject().getFileName()) {
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void onClick() {
+        public void onClick(AjaxRequestTarget target) {
           selected = (FileRecord) getParent().getDefaultModelObject();
-          logger.info("selected: " + selected.getFileName());
+          logger.info("selected for deletion: " + selected.getFileName());
+
         }
       });
+    }
+  }
+
+  /**
+   * @return string representation of selected contact property
+   */
+  public String getSelectedFileRecordLabel() {
+    if (selected == null) {
+      return "No File Selected";
+    }
+    else {
+      return "Deleting " + selected.getFileName();
     }
   }
 
