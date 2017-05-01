@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.IFilterStateLocator;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
@@ -38,6 +40,8 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
 
   private static final long serialVersionUID = 1L;
 
+  private static final Logger logger = LogManager.getLogger(SortableFileRecordProvider.class);
+
   private FileRecordFilter fileNameFilter = new FileRecordFilter();
 
   private String userFolder;
@@ -50,7 +54,6 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
   public SortableFileRecordProvider(String userFolder) {
     this.userFolder = userFolder;
     setSort("timestamp", SortOrder.DESCENDING);
-    System.out.println("size -- > " + size());
   }
 
   @Override
@@ -60,7 +63,7 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
   }
 
   private List<FileRecord> filterFileRecords(List<FileRecord> filesFound) {
-    System.out.println("Sort order: " + getSort());
+    logger.debug("filtering records, sort order: " + getSort());
     ArrayList<FileRecord> result = new ArrayList<>();
     Date dateFrom = fileNameFilter.getDateFrom();
     Date dateTo = fileNameFilter.getDateTo();
@@ -86,7 +89,7 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
   public long size() {
     int size = filterFileRecords(FileLister.listFiles(this.userFolder.toString(), getSort()))
         .size();
-    System.out.println("called size: " + size);
+    logger.debug("called size on records, total: " + size);
     return size;
   }
 
@@ -102,7 +105,7 @@ public class SortableFileRecordProvider extends SortableDataProvider<FileRecord,
 
   @Override
   public void setFilterState(FileRecordFilter state) {
-    System.out.println("filter state " + state);
+    logger.debug("setting filter state " + state);
     fileNameFilter = state;
   }
 }

@@ -82,10 +82,10 @@ public class FileManagementPanel extends Panel {
       logger.error("an exception while creating the user folder: " + StackTrace.toString(e));
     }
 
-    System.out.println("creatinga data provider");
+    logger.debug("creatinga data provider");
     SortableFileRecordProvider dataProvider = new SortableFileRecordProvider(userFolder.toString());
 
-    final DataView<FileRecord> dataView = new DataView<FileRecord>("oir", dataProvider) {
+    final DataView<FileRecord> dataView = new DataView<FileRecord>("fileTable", dataProvider) {
       private static final long serialVersionUID = 1L;
 
       @Override
@@ -123,7 +123,7 @@ public class FileManagementPanel extends Panel {
 
       @Override
       protected void onSortChanged() {
-        System.out.println("sort order changed");
+        logger.info("sort order changed");
         dataView.setCurrentPage(0);
       }
     });
@@ -133,7 +133,7 @@ public class FileManagementPanel extends Panel {
 
       @Override
       protected void onSortChanged() {
-        System.out.println("sort order changed");
+        logger.info("sort order changed");
         dataView.setCurrentPage(0);
       }
     });

@@ -80,7 +80,6 @@ public class DetachableFileRecordModel extends LoadableDetachableModel<FileRecor
   @Override
   protected FileRecord load() {
     FileRecord rec = FileLister.getFileRecord(this.absolutePath);
-    System.out.println("load load load " + rec.getTimestamp());
     return rec;
   }
 }
