@@ -166,7 +166,8 @@ public class FileUploadPanel extends Panel {
 
     logger.debug("creatinga data provider");
     SortableFileRecordProvider dataProvider = new SortableFileRecordProvider(userFolder.toString());
-    System.out.println(dataProvider.size());
+    System.out.println(
+        "User folder: " + userFolder.toString() + ", total " + dataProvider.size() + " files");
 
     final DataView<FileRecord> dataView = new DataView<FileRecord>("fileTable", dataProvider) {
       private static final long serialVersionUID = 1L;

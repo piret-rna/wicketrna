@@ -29,7 +29,7 @@ import net.seninp.wicketrna.security.PiretWebSession;
 public final class PiretPage extends WebPage {
 
   private static final long serialVersionUID = 2799448818773645768L;
-  
+
   private static final Logger logger = LogManager.getLogger(PiretPage.class);
 
   //
@@ -157,7 +157,7 @@ public final class PiretPage extends WebPage {
 
             // is it fileupload panel?
             if (UPLOAD.equals(linky.getActionKey())) {
-              if (null != activeComponent && !(activeComponent instanceof FileManagementPanel)) {
+              if (null != activeComponent && !(activeComponent instanceof FileUploadPanel)) {
                 activeComponent.setVisible(false);
               }
               fileUplodPanel.setVisible(true);

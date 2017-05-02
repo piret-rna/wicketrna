@@ -53,8 +53,8 @@ public class PiretApplication extends AuthenticatedWebApplication {
     mountPage("piret", PiretPage.class);
     logger.debug("mounted main page (PiretPage) to /piret");
 
-    mountPage("testwidget", TestWidget.class);
-    logger.warn("mounted TEST page to /testwidget");
+    // mountPage("testwidget", TestWidget.class);
+    // logger.warn("mounted TEST page to /testwidget");
 
   }
 

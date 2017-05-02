@@ -1,10 +1,13 @@
 package net.seninp.wicketrna;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import net.seninp.wicketrna.models.TimeStampModel;
 
@@ -15,7 +18,10 @@ import net.seninp.wicketrna.models.TimeStampModel;
  *
  */
 public class HomePage extends WebPage {
+
   private static final long serialVersionUID = 1L;
+
+  private static final Logger logger = LogManager.getLogger(HomePage.class);
 
   /**
    * Constructor.
@@ -26,7 +32,7 @@ public class HomePage extends WebPage {
 
     super(parameters);
     setVersioned(false);
-    
+
     add(new DebugBar("debug"));
 
     //
@@ -39,23 +45,29 @@ public class HomePage extends WebPage {
     // place the "Sign In" button on the screen
     Form<String> form = new Form<String>("form") {
       private static final long serialVersionUID = 1L;
-
-      protected void onSubmit() {
-        info("Form.onSubmit executed");
-      }
     };
 
-    Button button2 = new Button("sign_in_button") {
+    Button signinButton = new Button("sign_in_button") {
       private static final long serialVersionUID = 1L;
 
       public void onSubmit() {
-        info("button2.onSubmit executed");
+        logger.info("signin button executed");
         setResponsePage(PiretPage.class);
       }
     };
 
-    button2.setDefaultFormProcessing(false);
-    form.add(button2);
+    Button registerButton = new Button("register_button") {
+      private static final long serialVersionUID = 1L;
+
+      public void onSubmit() {
+        logger.info("register button executed");
+        setResponsePage(new WizardPage(NewUserWizard.class));
+      }
+    };
+
+    signinButton.setDefaultFormProcessing(false);
+    form.add(signinButton);
+    form.add(registerButton);
     add(form);
 
   }
