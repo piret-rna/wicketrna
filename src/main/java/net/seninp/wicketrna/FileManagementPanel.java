@@ -84,6 +84,7 @@ public class FileManagementPanel extends Panel {
 
     logger.debug("creatinga data provider");
     SortableFileRecordProvider dataProvider = new SortableFileRecordProvider(userFolder.toString());
+    System.out.println(dataProvider.size());
 
     final DataView<FileRecord> dataView = new DataView<FileRecord>("fileTable", dataProvider) {
       private static final long serialVersionUID = 1L;
@@ -138,8 +139,10 @@ public class FileManagementPanel extends Panel {
       }
     });
 
+    PagingNavigator pagingNavigator = new PagingNavigator("navigator", dataView);
+
     add(dataView);
-    add(new PagingNavigator("navigator", dataView));
+    add(pagingNavigator);
 
   }
 

@@ -9,6 +9,7 @@ import org.apache.wicket.markup.parser.filter.WicketTagIdentifier;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import net.seninp.wicketrna.entities.FileSelection;
 import net.seninp.wicketrna.entities.ProjectMetadata;
 
 public class PipelinePanel extends Panel {
@@ -22,6 +23,7 @@ public class PipelinePanel extends Panel {
   public PipelinePanel(String id, IModel<String> model) {
     super(id, model);
 
+    // project metadata
     ProjectMetadata projectMetadata = new ProjectMetadata();
     Form<String> form = new Form<String>("form");
 
@@ -34,6 +36,19 @@ public class PipelinePanel extends Panel {
     form.add(new TextField<String>("overall_design",
         new PropertyModel<String>(projectMetadata, "overallDesign")));
 
+    // files selection
+    FileSelection inputFilesSelection = new FileSelection();
+    form.add(new TextField<String>("input_files",
+        new PropertyModel<String>(inputFilesSelection, "selectedFiles")));
+    form.add(new Button("select_input_files", Model.of("Select files")) {
+      private static final long serialVersionUID = 1L;
+
+      public void onSubmit() {
+        System.out.println("File select pushed!\n" + inputFilesSelection.getSelectedFiles());
+      }
+    });
+
+    // the form submitter
     Button formSubmitter;
     form.add(formSubmitter = new Button("submit", Model.of("Validate and Run new project")) {
       private static final long serialVersionUID = 1L;

@@ -3,6 +3,8 @@ package net.seninp.wicketrna;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
@@ -27,6 +29,8 @@ import net.seninp.wicketrna.security.PiretWebSession;
 public final class PiretPage extends WebPage {
 
   private static final long serialVersionUID = 2799448818773645768L;
+  
+  private static final Logger logger = LogManager.getLogger(PiretPage.class);
 
   //
   // these are the keys used for panels
@@ -54,12 +58,13 @@ public final class PiretPage extends WebPage {
 
   @Override
   protected void onInitialize() {
-
     super.onInitialize();
-
     add(new DebugBar("debug"));
   }
 
+  /**
+   * Constructor.
+   */
   public PiretPage() {
     //
     // the timestamp model to print the current time on the screen
@@ -98,25 +103,20 @@ public final class PiretPage extends WebPage {
     //
     // panels we ought to see
     final Panel homePanel = new HomePanel("home_panel", new DummyHomePanelModel());
-    add(homePanel);
     homePanel.setVisible(false);
+    add(homePanel);
 
     final Panel fileUplodPanel = new FileUploadPanel("fileupload_panel", new DummyHomePanelModel());
-    add(fileUplodPanel);
     fileUplodPanel.setVisible(false);
-
-    final Panel fileManagementPanel = new FileManagementPanel("filemanagement_panel",
-        new DummyHomePanelModel());
-    add(fileManagementPanel);
-    fileManagementPanel.setVisible(false);
+    add(fileUplodPanel);
 
     final Panel pipelinePanel = new PipelinePanel("pipeline_panel", new DummyHomePanelModel());
-    add(pipelinePanel);
     pipelinePanel.setVisible(false);
+    add(pipelinePanel);
 
     final Panel projectsPanel = new ProjectsPanel("projects_panel", new DummyHomePanelModel());
-    add(projectsPanel);
     projectsPanel.setVisible(false);
+    add(projectsPanel);
 
     //
     // debug labels
@@ -140,7 +140,7 @@ public final class PiretPage extends WebPage {
             @Override
             public void onClick() {
               activeSelection = this.getId();
-              System.out.println("selected id: " + this.getId());
+              logger.info("selected id: " + this.getId());
             }
           };
           if (linky.getActionKey().equalsIgnoreCase(activeSelection)) {
@@ -150,7 +150,6 @@ public final class PiretPage extends WebPage {
             if (HOME.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof HomePanel)) {
                 activeComponent.setVisible(false);
-                fileManagementPanel.setVisible(false);
               }
               homePanel.setVisible(true);
               activeComponent = homePanel;
@@ -162,7 +161,6 @@ public final class PiretPage extends WebPage {
                 activeComponent.setVisible(false);
               }
               fileUplodPanel.setVisible(true);
-              fileManagementPanel.setVisible(true);
               activeComponent = fileUplodPanel;
             }
 
@@ -170,7 +168,6 @@ public final class PiretPage extends WebPage {
             if (RUN.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof PipelinePanel)) {
                 activeComponent.setVisible(false);
-                fileManagementPanel.setVisible(false);
               }
               pipelinePanel.setVisible(true);
               activeComponent = pipelinePanel;
@@ -180,7 +177,6 @@ public final class PiretPage extends WebPage {
             if (PROJECTS.equals(linky.getActionKey())) {
               if (null != activeComponent && !(activeComponent instanceof ProjectsPanel)) {
                 activeComponent.setVisible(false);
-                fileManagementPanel.setVisible(false);
               }
               projectsPanel.setVisible(true);
               activeComponent = projectsPanel;

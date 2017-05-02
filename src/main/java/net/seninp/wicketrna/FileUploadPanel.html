@@ -2,9 +2,9 @@
 <html xmlns:wicket="http://wicket.apache.org">
 <body>
 	<wicket:panel>
-		<div class="col-lg-5">
 
-			<!-- Upload files widget -->
+		<!-- Upload files widget -->
+		<div class="col-lg-5">
 			<h3>Upload new files here</h3>
 			<form wicket:id="form">
 				<div class="row">
@@ -14,15 +14,48 @@
 					<input class="btn btn-success" type="submit" value="Upload" />
 				</div>
 			</form>
-
-			<!-- a feedback panel -->
+			<!-- an upload feedback panel -->
 			<div class="row top-buffer">
 				<div class="alert alert-warning">
 					<div wicket:id="feedback-upload"></div>
 				</div>
 			</div>
-
 		</div>
+
+		<!-- Manage files widget -->
+
+		<div class="col-lg-10">
+
+			<div class="row">
+				<legend>Files management, select an action to manage files:</legend>
+			</div>
+
+			<div class="row bg-warning">
+				Selected files: <span wicket:id="selectedFile">[selected file]</span>
+			</div>
+
+			<div class="row">
+				<span wicket:id="navigator">[dataview navigator]</span>
+
+				<table cellspacing="0" class="table table-striped">
+					<tr>
+						<th colspan="2">Actions</th>
+						<th wicket:id="orderByFileName">File Name</th>
+						<th wicket:id="orderByTimestamp">Timestamp</th>
+						<th>File size</th>
+					</tr>
+					<tr wicket:id="fileTable">
+						<td><span wicket:id="actions">[actions]</span></td>
+						<td><a href="#" wicket:id="toggleHighlite">toggle highlite</a></td>
+						<td><span wicket:id="filename">[filename]</span></td>
+						<td><span wicket:id="timestamp">[timestamp]</span></td>
+						<td><span wicket:id="filesize">[filesize]</span></td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+
 	</wicket:panel>
 </body>
 </html>

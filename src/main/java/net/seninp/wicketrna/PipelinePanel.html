@@ -5,76 +5,80 @@
 		<div class="col-lg-9">
 			<h2>PiReT</h2>
 			<p>PiReT finds differentially expressed genes from raw Illumina FastQ or mapped BAM and SAM files.</p>
-			<form wicket:id="form">
-				<div class="panel-group" id="accordion">
-					<div class="panel panel-default">
+
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+					<form wicket:id="form">
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Project Metadata</a>
 							</h4>
 						</div>
 						<div id="collapse1" class="panel-collapse collapse in">
-							<div class="panel-body"> Project Name:
-								<input type="text" class="form-control input-md" wicket:id="projectname" />
+							<div class="panel-body">
+								Project Name: <input type="text" class="form-control input-md" wicket:id="projectname" />
 							</div>
-							<div class="panel-body"> Description: 
-								<input type="text" class="form-control input-md" wicket:id="description" />
+							<div class="panel-body">
+								Description: <input type="text" class="form-control input-md" wicket:id="description" />
 							</div>
-							<div class="panel-body"> Contributors:
-								<input type="text" class="form-control input-md" wicket:id="contributors" />
+							<div class="panel-body">
+								Contributors: <input type="text" class="form-control input-md" wicket:id="contributors" />
 							</div>
-							<div class="panel-body"> Overall Design:
-								<input type="text" class="form-control input-md" wicket:id="overall_design" />
+							<div class="panel-body">
+								Overall Design: <input type="text" class="form-control input-md" wicket:id="overall_design" />
 							</div>
 						</div>
+					</form>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Select Files</a>
+						</h4>
 					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Upload Files</a>
-							</h4>
+					<div id="collapse2" class="panel-collapse collapse">
+						<div class="panel-body">
+							Input file type: FastQ/SAM/BAM <span wicket:id="input_files">[none selected]</span>
+							<button type="button" wicket:id="select_input_files" class="button"></button>
 						</div>
-						<div id="collapse2" class="panel-collapse collapse">
-							<div class="panel-body">Input file type: FastQ/SAM/BAM</div>
-							<div class="panel-body">Illumina Raw FastQ:</div>
-							<div class="panel-body">BAM files:</div>
-							<div class="panel-body">Experimental Design:</div>
-							<div class="panel-body">Type of Analysis: Prokaryote/Eukaryote/Both</div>
-							<div class="panel-body">Reference Prokaryote Fasta:</div>
-							<div class="panel-body">Reference Prokaryote gtf:</div>
-							<div class="panel-body">Reference Eukaryote Fasta:</div>
-							<div class="panel-body">Reference Eukaryote gtf:</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Differential expression</a>
-							</h4>
-						</div>
-						<div id="collapse3" class="panel-collapse collapse">
-							<div class="panel-body">P-value:</div>
-							<div class="panel-body">Comparison methods: EdgeR/Deseq2/Both</div>
-						</div>
+						<div class="panel-body">Illumina Raw FastQ:</div>
+						<div class="panel-body">BAM files:</div>
+						<div class="panel-body">Experimental Design:</div>
+						<div class="panel-body">Type of Analysis: Prokaryote/Eukaryote/Both</div>
+						<div class="panel-body">Reference Prokaryote Fasta:</div>
+						<div class="panel-body">Reference Prokaryote gtf:</div>
+						<div class="panel-body">Reference Eukaryote Fasta:</div>
+						<div class="panel-body">Reference Eukaryote gtf:</div>
 					</div>
 				</div>
-				<div class="panel-group2">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" href="#collapse4">Other Parameters (optional)</a>
-							</h4>
-						</div>
-						<div id="collapse4" class="panel-collapse collapse">
-							<div class="panel-body">CPU:</div>
-							<div class="panel-body">QC_minimum_length:</div>
-							<div class="panel-body">Panel Body</div>
-							<div class="panel-footer">Panel Footer</div>
-						</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Differential expression</a>
+						</h4>
+					</div>
+					<div id="collapse3" class="panel-collapse collapse">
+						<div class="panel-body">P-value:</div>
+						<div class="panel-body">Comparison methods: EdgeR/Deseq2/Both</div>
 					</div>
 				</div>
-				<input type="submit" class="btn btn-primary btn-lg" wicket:id="submit" />
-			</form>
+			</div>
+			<div class="panel-group2">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" href="#collapse4">Other Parameters (optional)</a>
+						</h4>
+					</div>
+					<div id="collapse4" class="panel-collapse collapse">
+						<div class="panel-body">CPU:</div>
+						<div class="panel-body">QC_minimum_length:</div>
+						<div class="panel-body">Panel Body</div>
+						<div class="panel-footer">Panel Footer</div>
+					</div>
+				</div>
+			</div>
+			<input type="submit" class="btn btn-primary btn-lg" wicket:id="submit" />
 		</div>
 
 		<span wicket:id="label"></span>
