@@ -16,29 +16,22 @@
  */
 package net.seninp.wicketrna;
 
-import java.util.Arrays;
-import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.extensions.wizard.AjaxWizardButtonBar;
 import org.apache.wicket.extensions.wizard.StaticContentStep;
 import org.apache.wicket.extensions.wizard.Wizard;
 import org.apache.wicket.extensions.wizard.WizardModel;
-import org.apache.wicket.extensions.wizard.WizardModel.ICondition;
 import org.apache.wicket.extensions.wizard.WizardStep;
 import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
-import org.apache.wicket.markup.html.form.ListMultipleChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.form.validation.EqualInputValidator;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 /**
@@ -51,10 +44,16 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
  * @author Eelco Hillenius
  */
 public class NewUserWizard extends Wizard {
+
+  private static final long serialVersionUID = 1L;
+
   /**
    * The confirmation step.
    */
   private final class ConfirmationStep extends StaticContentStep {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * Construct.
      */
@@ -71,6 +70,9 @@ public class NewUserWizard extends Wizard {
    * The user details step.
    */
   private final class UserDetailsStep extends WizardStep {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * Construct.
      */
@@ -88,6 +90,9 @@ public class NewUserWizard extends Wizard {
    * The user name step.
    */
   private final class UserNameStep extends WizardStep {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * Construct.
      */
@@ -107,54 +112,6 @@ public class NewUserWizard extends Wizard {
     }
   }
 
-  /**
-   * The user details step.
-   */
-  private final class UserRolesStep extends WizardStep implements ICondition {
-    /**
-     * Construct.
-     */
-    public UserRolesStep() {
-      super(new ResourceModel("userroles.title"), null);
-      setSummaryModel(new StringResourceModel("userroles.summary", this, new Model<>(user)));
-      final ListMultipleChoice<String> rolesChoiceField = new ListMultipleChoice<>("user.roles",
-          allRoles);
-      add(rolesChoiceField);
-      final TextField<String> rolesSetNameField = new TextField<>("user.rolesSetName");
-      add(rolesSetNameField);
-      add(new AbstractFormValidator() {
-        @Override
-        public FormComponent[] getDependentFormComponents() {
-          // name and roles don't have anything to validate,
-          // so might as well just skip them here
-          return null;
-        }
-
-        @Override
-        public void validate(Form<?> form) {
-          String rolesInput = rolesChoiceField.getInput();
-          if (rolesInput != null && (!"".equals(rolesInput))) {
-            if ("".equals(rolesSetNameField.getInput())) {
-              rolesSetNameField.error(new ValidationError().addKey("error.noSetNameForRoles"));
-            }
-          }
-        }
-      });
-    }
-
-    @Override
-    public boolean evaluate() {
-      return assignRoles;
-    }
-  }
-
-  /** cheap ass roles database. */
-  private static final List<String> allRoles = Arrays.asList("admin", "user", "moderator", "joker",
-      "slacker");
-
-  /** Whether the assign roles step should be executed. */
-  private boolean assignRoles = false;
-
   /** The user we are editing. */
   private User user;
 
@@ -173,7 +130,6 @@ public class NewUserWizard extends Wizard {
     WizardModel model = new WizardModel();
     model.add(new UserNameStep());
     model.add(new UserDetailsStep());
-    model.add(new UserRolesStep());
     model.add(new ConfirmationStep());
 
     // initialize the wizard with the wizard model we just built
@@ -198,15 +154,6 @@ public class NewUserWizard extends Wizard {
   }
 
   /**
-   * Gets assignRoles.
-   * 
-   * @return assignRoles
-   */
-  public boolean isAssignRoles() {
-    return assignRoles;
-  }
-
-  /**
    * @see org.apache.wicket.extensions.wizard.Wizard#onCancel()
    */
   @Override
@@ -220,15 +167,6 @@ public class NewUserWizard extends Wizard {
   @Override
   public void onFinish() {
     setResponsePage(HomePage.class);
-  }
-
-  /**
-   * Sets assignRoles.
-   * 
-   * @param assignRoles assignRoles
-   */
-  public void setAssignRoles(boolean assignRoles) {
-    this.assignRoles = assignRoles;
   }
 
   /**

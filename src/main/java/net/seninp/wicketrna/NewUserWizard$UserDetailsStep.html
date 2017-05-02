@@ -1,20 +1,37 @@
 <wicket:panel xmlns:wicket="http://wicket.apache.org">
-	 <table>
-	  <tr>
-	   <td><wicket:message key="firstName">First Name</wicket:message></td>
-	   <td><input type="text" wicket:id="user.firstName" /></td>
-	  </tr>
-	  <tr>
-	   <td><wicket:message key="lastName">Last Name</wicket:message></td>
-	   <td><input type="text" wicket:id="user.lastName" /></td>
-	  </tr>
-	  <tr>
-	   <td><wicket:message key="department">Department</wicket:message></td>
-	   <td><input type="text" wicket:id="user.department" /></td>
-	  </tr>
-	  <tr>
-	   <td><wicket:message key="assignRoles">Assign roles</wicket:message></td>
-	   <td><input type="checkbox" wicket:id="assignRoles" /></td>
-	  </tr>
-	 </table>
+
+	<div class="row top-buffer">
+
+		<div class="row clearfix">
+			<div class="col-md-9 column">
+				<div class="form-horizontal">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><wicket:message key="firstName">First Name</wicket:message>
+						</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" wicket:id="user.firstName" placeholder="Pavel">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><wicket:message key="lastName">Last Name</wicket:message></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" wicket:id="user.lastName" placeholder="Senin">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><wicket:message key="department">Department</wicket:message></label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" wicket:id="user.department" placeholder="Bioscience">
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+
 </wicket:panel>

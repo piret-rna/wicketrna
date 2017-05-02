@@ -18,10 +18,8 @@ package net.seninp.wicketrna;
 
 import java.lang.reflect.Constructor;
 import org.apache.wicket.extensions.wizard.Wizard;
-import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.util.lang.Args;
 
 /**

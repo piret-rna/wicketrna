@@ -1,13 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta charset="utf-8" />
+<title>PiReT home</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.top-buffer {
+	margin-top: 20px;
+}
 
+.mono {
+	font-size: 9pt;
+	font-family: Consolas, courier;
+	fill: #aaa;
+}
+</style>
+</head>
 <body>
-    
-    <div>
-	    <wicket:link><a href="HomePage.html">[back to the home page]</a></wicket:link>
-    </div>
-    
-    <div wicket:id="wizard">Wizard will be placed here</div>
+	<!-- Part 1: Wrap all page content here -->
+	<div id="wrap">
+		<!-- Begin page content -->
+		<div class="container">
+			<!-- the header -->
+			<div class="row top-buffer">
+				<div class="page-header">
+					<img src="logo.png" width="90px" height="90px" alt="PiReT Logo" />
+					<h1>PiReT - Pipeline for Reference based Transcriptomics</h1>
+				</div>
+			</div>
 
+			<div wicket:id="wizard">Wizard will be placed here</div>
+
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
