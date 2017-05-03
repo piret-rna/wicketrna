@@ -13,11 +13,12 @@
   <insert id="createUserTable">
     CREATE TABLE IF NOT EXISTS USER (
     id INTEGER IDENTITY PRIMARY KEY,
-    username varchar(255) NOT NULL,
-    UNIQUE(username),
+    username varchar(255) NOT NULL, UNIQUE(username),
+    firstname varchar(128) NOT NULL,
+    lastname varchar(128) NOT NULL,
+    affiliation varchar(128) NOT NULL,
+    email varchar(128) NOT NULL, UNIQUE(email),
     salt varchar(255),
-    email varchar(128) NOT NULL,
-    UNIQUE(email),
     user_folder varchar(1024),
     key_values varchar(2048)
     );  
@@ -33,9 +34,9 @@
     flushCache="true" statementType="PREPARED" useGeneratedKeys="true"
     keyProperty="id" timeout="20">
     INSERT INTO USER
-    (USERNAME, SALT, EMAIL, USER_FOLDER, KEY_VALUES)
+    (USERNAME, FIRSTNAME, LASTNAME, AFFILIATION, EMAIL, SALT, USER_FOLDER, KEY_VALUES)
     VALUES
-    (#{username}, #{salt}, #{email}, #{user_folder}, #{key_values})
+    (#{userName}, #{firstName}, #{lastName}, #{affiliation}, #{email}, #{salt}, #{user_folder}, #{key_values})
   </insert>
 
   <select id="getAllUserNames" resultType="String">

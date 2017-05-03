@@ -22,7 +22,6 @@ import org.apache.wicket.extensions.wizard.StaticContentStep;
 import org.apache.wicket.extensions.wizard.Wizard;
 import org.apache.wicket.extensions.wizard.WizardModel;
 import org.apache.wicket.extensions.wizard.WizardStep;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
@@ -33,6 +32,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
+import net.seninp.wicketrna.entities.User;
 
 /**
  * This wizard shows some basic form use. It uses custom panels for the form elements, and a single
@@ -81,8 +81,8 @@ public class NewUserWizard extends Wizard {
       setSummaryModel(new StringResourceModel("userdetails.summary", this, new Model<>(user)));
       add(new RequiredTextField<>("user.firstName"));
       add(new RequiredTextField<>("user.lastName"));
-      add(new TextField<>("user.department"));
-      add(new CheckBox("assignRoles"));
+      add(new TextField<>("user.affiliation"));
+
     }
   }
 

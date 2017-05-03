@@ -60,7 +60,7 @@ public class HomePage extends WebPage {
 
       public void onSubmit() {
         logger.info("register button executed");
-        setResponsePage(new WizardPage(NewUserWizard.class));
+        setResponsePage(new NewUserWizardPage(NewUserWizard.class));
       }
     };
 

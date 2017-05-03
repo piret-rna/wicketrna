@@ -2,6 +2,7 @@ package net.seninp.wicketrna.db;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import java.io.IOException;
@@ -20,10 +21,16 @@ public class TestWicketRNADb {
 
   private static SqlSessionFactory sqlSessionFactory;
 
-  private static final String UNAME = "test";
-  private static final String PASS = "test";
-  private static final String EMAIL = "psenin@lanl.gov";
-  private static final String HOMEFOLDER = "test";
+  private static final String UNAME = "test_uname";
+
+  private static final String FNAME = "test_first";
+  private static final String LNAME = "test_last";
+  private static final String AFFILIATION = "test_affiliation";
+  private static final String EMAIL = "testemail@testdomain.gov";
+
+  private static final String PASS = "test_pass";
+
+  private static final String HOMEFOLDER = "test_folder";
   private static final String KEYVALUES = "key aaa; value bbb";
 
   @BeforeClass
@@ -41,6 +48,9 @@ public class TestWicketRNADb {
 
   }
 
+  /**
+   * Test save/retrieve a user entity.
+   */
   @Test
   public void testUserXML() {
     // open session
@@ -61,12 +71,21 @@ public class TestWicketRNADb {
     assertTrue(users.isEmpty());
 
     // check the user creation/retrieval
+    // User(String userName, String firstName, String lastName, String affiliation, String email,
+    // String salt, String user_folder, String key_values)
     int id = session.insert("addNewUser",
-        new User(null, UNAME, PASS, EMAIL, HOMEFOLDER, KEYVALUES));
+        new User(UNAME, FNAME, LNAME, AFFILIATION, EMAIL, PASS, HOMEFOLDER, KEYVALUES));
     session.commit();
+
     assertEquals(1, id);
-    User testUser = session.selectOne("getUserByUsername", "test");
-    assertTrue(UNAME.equals(testUser.getUsername()));
+
+    User testUser = session.selectOne("getUserByUsername", UNAME);
+
+    assertTrue(UNAME.equals(testUser.getUserName()));
+    assertTrue(FNAME.equals(testUser.getFirstName()));
+    assertTrue(LNAME.equals(testUser.getLastName()));
+    assertTrue(AFFILIATION.equals(testUser.getAffiliation()));
+
     assertTrue(PASS.equals(testUser.getSalt()));
     assertTrue(EMAIL.equals(testUser.getEmail()));
     assertTrue(HOMEFOLDER.equals(testUser.getUser_folder()));
@@ -85,19 +104,14 @@ public class TestWicketRNADb {
 
   }
 
+  /**
+   * Test tables recreation and dummy user population.
+   */
   @Test
   public void testUserRNADb() {
-
     WicketRNADb.connect(sqlSessionFactory);
-
     User user = WicketRNADb.getUser(UNAME);
-
-    assertTrue(PASS.equalsIgnoreCase(user.getUser_folder()));// db doesnt report passwords
-
-    assertTrue(EMAIL.equals(user.getEmail()));
-    assertTrue(HOMEFOLDER.equals(user.getUser_folder()));
-    assertTrue(user.getKey_values().isEmpty());
-
+    assertNotNull(user);
   }
 
 }

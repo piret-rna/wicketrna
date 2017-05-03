@@ -18,8 +18,10 @@ package net.seninp.wicketrna;
 
 import java.lang.reflect.Constructor;
 import org.apache.wicket.extensions.wizard.Wizard;
+import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.util.lang.Args;
 
 /**
@@ -27,11 +29,11 @@ import org.apache.wicket.util.lang.Args;
  * 
  * @author Eelco Hillenius
  */
-public class WizardPage extends WebPage {
+public class NewUserWizardPage extends WebPage {
 
   private static final long serialVersionUID = 1L;
 
-  public WizardPage() {
+  public NewUserWizardPage() {
     super();
   }
 
@@ -42,7 +44,7 @@ public class WizardPage extends WebPage {
    * 
    * @param wizardClass class of the wizard component
    */
-  public <C extends Wizard> WizardPage(Class<C> wizardClass) {
+  public <C extends Wizard> NewUserWizardPage(Class<C> wizardClass) {
     Args.notNull(wizardClass, "wizardClass");
     try {
       Constructor<? extends Wizard> ctor = wizardClass.getConstructor(String.class);
@@ -58,7 +60,7 @@ public class WizardPage extends WebPage {
   public void renderHead(IHeaderResponse response) {
     super.renderHead(response);
 
-    // response.render(
-    // CssHeaderItem.forReference(new CssResourceReference(WizardPage.class, "Wizard.css")));
+     response.render(
+     CssHeaderItem.forReference(new CssResourceReference(NewUserWizardPage.class, "NewUserWizard.css")));
   }
 }

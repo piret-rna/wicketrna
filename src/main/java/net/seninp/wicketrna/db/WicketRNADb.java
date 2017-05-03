@@ -24,7 +24,9 @@ import net.seninp.wicketrna.util.StackTrace;
 public class WicketRNADb {
 
   private static final Logger logger = LogManager.getLogger(WicketRNADb.class);
-  
+
+  private static final String TEST_USER_UNAME = "test_uname";
+
   private static SqlSessionFactory sqlSessionFactory;
 
   /**
@@ -44,7 +46,7 @@ public class WicketRNADb {
   public static void connect(String dbURI) {
 
     logger.info("initializing the Piert database using URI:" + dbURI);
-    
+
     // set URL with factory builder properties
     Properties properties = new Properties();
 
@@ -60,7 +62,7 @@ public class WicketRNADb {
       dbHome.append(";shutdown=true");
 
       dbURI = dbHome.toString();
-      
+
       logger.info("since DB URI is null, using the default settings:" + dbURI);
     }
 
@@ -109,11 +111,9 @@ public class WicketRNADb {
       session.insert("createUserTable");
 
       // add the test user if not in there
-      User testUser = session.selectOne("getUserByUsername", "test");
+      User testUser = session.selectOne("getUserByUsername", TEST_USER_UNAME);
       if (null == testUser) {
-        session.insert("addNewUser",
-            new User(null, "test", "test", "psenin@lanl.gov", "test", ""));
-        session.commit();
+        addDummyUser(session);
       }
 
     }
@@ -124,6 +124,28 @@ public class WicketRNADb {
       session.close();
     }
 
+  }
+
+  /**
+   * Inserts a dummy user into the table for integrity test.
+   * 
+   * @param session
+   */
+  private static void addDummyUser(SqlSession session) {
+    User usr = new User();
+    usr.setUserName(TEST_USER_UNAME);
+    usr.setFirstName("test_first");
+    usr.setLastName("test_last");
+    usr.setEmail("testemail@testdomain.gov");
+
+    usr.setSalt("test_pass");
+
+    usr.setUser_folder("test_folder");
+    usr.setKey_values("key aaa; value bbb");
+
+    session.insert("addNewUser", usr);
+
+    session.commit();
   }
 
   /**

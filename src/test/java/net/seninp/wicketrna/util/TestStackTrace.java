@@ -2,7 +2,6 @@ package net.seninp.wicketrna.util;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import net.seninp.wicketrna.util.StackTrace;
 
 /**
  * Tests the Stack Trace class.

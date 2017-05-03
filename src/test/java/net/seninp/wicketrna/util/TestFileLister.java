@@ -48,8 +48,7 @@ public class TestFileLister {
 
       //
       // list files
-      FileLister fl = new FileLister();
-      List<FileRecord> files = fl.listFiles(tmp.toString());
+      List<FileRecord> files = FileLister.listFiles(tmp.toString());
       for (FileRecord f : files) {
         BasicFileAttributes fAttr = attrs.get(f.getFileName());
         assertEquals(Long.valueOf(fAttr.size()), f.getFileSize());

@@ -3,8 +3,6 @@ package net.seninp.wicketrna;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
-import net.seninp.wicketrna.HomePage;
-import net.seninp.wicketrna.PiretApplication;
 
 /**
  * Simple test using the WicketTester

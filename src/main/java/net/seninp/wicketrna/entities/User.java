@@ -1,23 +1,45 @@
 package net.seninp.wicketrna.entities;
 
-public class User {
+import java.io.Serializable;
+
+/**
+ * The piret user object.
+ * 
+ * @author psenin
+ *
+ */
+public class User implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private Integer id;
-  private String username;
-  private String salt;
+  private String userName;
+
+  private String firstName;
+  private String lastName;
+  private String affiliation = "";
   private String email;
+
+  private String salt;
   private String user_folder;
   private String key_values;
 
-  public User(Integer id, String username, String salt, String email, String user_folder,
-      String key_values) {
+  public User(String userName, String firstName, String lastName, String affiliation, String email,
+      String salt, String user_folder, String key_values) {
     super();
-    this.id = id;
-    this.username = username;
-    this.salt = salt;
+    this.userName = userName;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.affiliation = affiliation;
     this.email = email;
+    this.salt = salt;
     this.user_folder = user_folder;
     this.key_values = key_values;
+  }
+
+  public User() {
+    super();
+    // TODO Auto-generated constructor stub
   }
 
   public Integer getId() {
@@ -28,20 +50,36 @@ public class User {
     this.id = id;
   }
 
-  public String getUsername() {
-    return username;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
-  public String getSalt() {
-    return salt;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setSalt(String salt) {
-    this.salt = salt;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getAffiliation() {
+    return affiliation;
+  }
+
+  public void setAffiliation(String affiliation) {
+    this.affiliation = affiliation;
   }
 
   public String getEmail() {
@@ -50,6 +88,14 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getSalt() {
+    return salt;
+  }
+
+  public void setSalt(String salt) {
+    this.salt = salt;
   }
 
   public String getUser_folder() {
@@ -73,6 +119,8 @@ public class User {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((userName == null) ? 0 : userName.hashCode());
     return result;
   }
 
@@ -90,6 +138,18 @@ public class User {
         return false;
     }
     else if (!email.equals(other.email))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    }
+    else if (!id.equals(other.id))
+      return false;
+    if (userName == null) {
+      if (other.userName != null)
+        return false;
+    }
+    else if (!userName.equals(other.userName))
       return false;
     return true;
   }
