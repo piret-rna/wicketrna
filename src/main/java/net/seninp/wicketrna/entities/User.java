@@ -17,7 +17,7 @@ public class User implements Serializable {
 
   private String firstName;
   private String lastName;
-  private String affiliation = "";
+  private String affiliation;
   private String email;
 
   private String salt;
@@ -87,6 +87,7 @@ public class User implements Serializable {
   }
 
   public void setEmail(String email) {
+    System.out.println("setting email" + email);
     this.email = email;
   }
 
@@ -95,6 +96,7 @@ public class User implements Serializable {
   }
 
   public void setSalt(String salt) {
+    System.out.println("setting salt" + salt);
     this.salt = salt;
   }
 
@@ -152,6 +154,17 @@ public class User implements Serializable {
     else if (!userName.equals(other.userName))
       return false;
     return true;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("User [id=").append(id).append(", userName=").append(userName)
+        .append(", firstName=").append(firstName).append(", lastName=").append(lastName)
+        .append(", affiliation=").append(affiliation).append(", email=").append(email)
+        .append(", salt=").append(salt).append(", user_folder=").append(user_folder)
+        .append(", key_values=").append(key_values).append("]");
+    return builder.toString();
   }
 
 }

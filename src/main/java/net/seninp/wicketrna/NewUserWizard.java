@@ -16,6 +16,8 @@
  */
 package net.seninp.wicketrna;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.wicket.Component;
 import org.apache.wicket.extensions.wizard.AjaxWizardButtonBar;
 import org.apache.wicket.extensions.wizard.StaticContentStep;
@@ -23,6 +25,7 @@ import org.apache.wicket.extensions.wizard.Wizard;
 import org.apache.wicket.extensions.wizard.WizardModel;
 import org.apache.wicket.extensions.wizard.WizardStep;
 import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.validation.EqualInputValidator;
@@ -32,6 +35,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.apache.wicket.validation.validator.PatternValidator;
 import net.seninp.wicketrna.entities.User;
 
 /**
@@ -46,6 +50,10 @@ import net.seninp.wicketrna.entities.User;
 public class NewUserWizard extends Wizard {
 
   private static final long serialVersionUID = 1L;
+
+  private static final Logger logger = LogManager.getLogger(NewUserWizard.class);
+
+  private final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
 
   /**
    * The confirmation step.
@@ -97,18 +105,30 @@ public class NewUserWizard extends Wizard {
      * Construct.
      */
     public UserNameStep() {
+
       super(new ResourceModel("username.title"), new ResourceModel("username.summary"));
 
+      // username
       add(new RequiredTextField<>("user.userName"));
 
+      // email
       FormComponent<String> email = new RequiredTextField<String>("user.email")
           .add(EmailAddressValidator.getInstance());
       add(email);
 
       TextField<String> emailRepeat = new TextField<>("emailRepeat", new Model<String>());
       add(emailRepeat);
-
       add(new EqualInputValidator(email, emailRepeat));
+
+      // password
+      FormComponent<String> salt = new RequiredTextField<String>("user.salt", new Model<String>());
+      salt.add(new PatternValidator(PASSWORD_PATTERN));
+      add(salt);
+
+      TextField<String> passwordRepeat = new TextField<>("passwordRepeat", Model.of(""));
+      add(passwordRepeat);
+
+      add(new EqualInputValidator(salt, passwordRepeat));
     }
   }
 
@@ -166,6 +186,7 @@ public class NewUserWizard extends Wizard {
    */
   @Override
   public void onFinish() {
+    logger.info("Asked to register a new user: " + user.toString());
     setResponsePage(HomePage.class);
   }
 

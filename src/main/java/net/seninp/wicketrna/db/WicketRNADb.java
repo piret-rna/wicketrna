@@ -137,6 +137,7 @@ public class WicketRNADb {
     usr.setFirstName("test_first");
     usr.setLastName("test_last");
     usr.setEmail("testemail@testdomain.gov");
+    usr.setAffiliation("test_affiliation");
 
     usr.setSalt("test_pass");
 
