@@ -194,4 +194,25 @@ public class WicketRNADb {
     return null != usr;
   }
 
+  public static boolean register(User user) {
+    try {
+      SqlSession session = sqlSessionFactory.openSession();
+      User usr = session.selectOne("getUserByUsername", user.getUserName());
+      if (null != usr) {
+        return false;
+      }
+      else {
+        session.insert("addNewUser", user);
+        session.commit();
+      }
+      session.close();
+    }
+    catch (Exception e) {
+      logger.error("An exception thrown wjile saving a user...\n" + StackTrace.toString(e));
+
+      return false;
+    }
+    return true;
+  }
+
 }

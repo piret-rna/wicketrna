@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta charset="utf-8" />
+<title>PiReT home</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.top-buffer {
+	margin-top: 20px;
+}
+
+.mono {
+	font-size: 9pt;
+	font-family: Consolas, courier;
+	fill: #aaa;
+}
+</style>
+</head>
+<body>
+	<!-- Part 1: Wrap all page content here -->
+	<div id="wrap">
+		<!-- Begin page content -->
+		<div class="container">
+			<!-- the header -->
+			<div class="row top-buffer">
+				<div class="page-header">
+					<img src="logo.png" width="90px" height="90px" alt="PiReT Logo" />
+					<div wicket:id="debug"></div>
+					<h1>PiReT - Pipeline for Reference based Transcriptomics</h1>
+				</div>
+			</div>
+
+			<div class="row">
+				<p class="lead">Sorry, unable to register a new user.</p>
+			</div>
+
+			<div class="row top-buffer">
+				<form wicket:id="form">
+					<input wicket:id="back_home" type="submit" class="btn btn-success btn-lg" value="Back To HomePage" />
+				</form>
+			</div>
+
+			<div class="row top-buffer">
+				<blockquote class="blockquote">
+					<p class="mark">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> wicket:
+						<wicket:container wicket:id="wicketversion">1.5-SNAPSHOT</wicket:container>
+						| db:
+						<wicket:container wicket:id="hsqlversion">url</wicket:container>
+						|
+						<wicket:container wicket:id="timeStamp">00:00:00</wicket:container>
+						<br>
+					</p>
+				</blockquote>
+			</div>
+
+		</div>
+		<div id="ft"></div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

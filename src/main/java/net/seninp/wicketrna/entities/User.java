@@ -87,7 +87,6 @@ public class User implements Serializable {
   }
 
   public void setEmail(String email) {
-    System.out.println("setting email" + email);
     this.email = email;
   }
 
@@ -96,7 +95,6 @@ public class User implements Serializable {
   }
 
   public void setSalt(String salt) {
-    System.out.println("setting salt" + salt);
     this.salt = salt;
   }
 

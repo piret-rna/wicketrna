@@ -29,6 +29,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.validation.EqualInputValidator;
+import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -36,6 +37,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 import org.apache.wicket.validation.validator.PatternValidator;
+import net.seninp.wicketrna.db.WicketRNADb;
 import net.seninp.wicketrna.entities.User;
 
 /**
@@ -116,19 +118,22 @@ public class NewUserWizard extends Wizard {
           .add(EmailAddressValidator.getInstance());
       add(email);
 
+      // email repeat
       TextField<String> emailRepeat = new TextField<>("emailRepeat", new Model<String>());
       add(emailRepeat);
       add(new EqualInputValidator(email, emailRepeat));
 
       // password
-      FormComponent<String> salt = new RequiredTextField<String>("user.salt", new Model<String>());
+      final FormComponent<String> salt = new PasswordTextField("user.salt").setResetPassword(false);
+      salt.setType(String.class);
       salt.add(new PatternValidator(PASSWORD_PATTERN));
       add(salt);
 
-      TextField<String> passwordRepeat = new TextField<>("passwordRepeat", Model.of(""));
+      // password repeat
+      final PasswordTextField passwordRepeat = new PasswordTextField("passwordRepeat",
+          new Model<String>());
       add(passwordRepeat);
-
-      add(new EqualInputValidator(salt, passwordRepeat));
+      add(new EqualPasswordInputValidator(salt, passwordRepeat));
     }
   }
 
@@ -187,7 +192,13 @@ public class NewUserWizard extends Wizard {
   @Override
   public void onFinish() {
     logger.info("Asked to register a new user: " + user.toString());
-    setResponsePage(HomePage.class);
+    boolean success = WicketRNADb.register(user);
+
+    if (success) {
+      setResponsePage(HomePage.class);
+    } else {
+      setResponsePage(FailedRegistration.class);
+    }
   }
 
   /**
