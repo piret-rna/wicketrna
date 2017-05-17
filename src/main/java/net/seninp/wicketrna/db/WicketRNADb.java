@@ -202,6 +202,7 @@ public class WicketRNADb {
         return false;
       }
       else {
+        user.setUser_folder(user.getUserName());
         session.insert("addNewUser", user);
         session.commit();
       }
